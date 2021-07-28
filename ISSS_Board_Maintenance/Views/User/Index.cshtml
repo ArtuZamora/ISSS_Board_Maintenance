@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Iniciar Sesión";
+}
+
+@section Styles
+{
+    @Styles.Render("~/Content/login_main.css")
+    @Styles.Render("~/Content/login_util.css")
+}
+<div class="container-login100" style="background-image:url('../../images/bg-01.jpg')">
+    <div class="wrap-login100 p-l-75 p-r-55 p-t-55 p-b-55">
+        <table>
+            <tr>
+                <th>
+                    @{ Html.RenderAction("Login", "User"); }
+                </th>
+                <th>
+                    @{ Html.RenderAction("SignIn", "User"); }
+                </th>
+            </tr>
+        </table>
+    </div>
+</div>
+@Scripts.Render("~/Scripts/login_signin.js")

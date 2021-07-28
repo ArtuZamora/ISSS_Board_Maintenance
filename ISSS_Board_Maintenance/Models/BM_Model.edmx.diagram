@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="81d1a0a8745443f48f0bb45057b0e355" Name="Diagram1">
+        <EntityTypeShape EntityType="BM_010_ISSSModel.employee_user" Width="1.5" PointX="1" PointY="0.5" />
+        <EntityTypeShape EntityType="BM_010_ISSSModel.maintenance_rutine" Width="1.5" PointX="3" PointY="0.5" />
+        <EntityTypeShape EntityType="BM_010_ISSSModel.maintenance_schedule" Width="1.5" PointX="5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BM_010_ISSSModel.termography_files" Width="1.5" PointX="6.75" PointY="0.5" />
+        <AssociationConnector Association="BM_010_ISSSModel.fk_mr_employee_user" />
+        <AssociationConnector Association="BM_010_ISSSModel.fk_mr_maintenance_schedule" />
+        <AssociationConnector Association="BM_010_ISSSModel.fk_tf_maintenance_rutine" ManuallyRouted="false" >
+        </AssociationConnector>
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

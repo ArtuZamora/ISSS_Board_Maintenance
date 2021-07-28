@@ -1,0 +1,351 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BM_010_ISSSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="employee_user">
+          <Key>
+            <PropertyRef Name="employee_id" />
+          </Key>
+          <Property Name="employee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="last_name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="signature" Type="image" Nullable="false" />
+          <Property Name="role" Type="char" MaxLength="15" />
+          <Property Name="verification" Type="bit" />
+        </EntityType>
+        <EntityType Name="maintenance_rutine">
+          <Key>
+            <PropertyRef Name="mr_id" />
+          </Key>
+          <Property Name="mr_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ms_id" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="description" Type="varchar(max)" Nullable="false" />
+          <Property Name="location" Type="varchar(max)" Nullable="false" />
+          <Property Name="slots_quantity" Type="int" Nullable="false" />
+          <Property Name="slots_available" Type="int" Nullable="false" />
+          <Property Name="transf_capacity" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="general_protection" Type="nchar" MaxLength="2" Nullable="false" />
+          <Property Name="initial_termography" Type="nchar" MaxLength="2" Nullable="false" />
+          <Property Name="general_cleaning" Type="nchar" MaxLength="2" Nullable="false" />
+          <Property Name="cable_managment" Type="nchar" MaxLength="2" Nullable="false" />
+          <Property Name="retighten" Type="nchar" MaxLength="2" Nullable="false" />
+          <Property Name="rotulation" Type="nchar" MaxLength="2" Nullable="false" />
+          <Property Name="final_termography" Type="nchar" MaxLength="2" Nullable="false" />
+          <Property Name="cover_placement" Type="nchar" MaxLength="2" Nullable="false" />
+          <Property Name="protection_capacity" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="voltage_01" Type="decimal" Precision="10" Scale="4" Nullable="false" />
+          <Property Name="voltage_02" Type="decimal" Precision="10" Scale="4" Nullable="false" />
+          <Property Name="voltage_03" Type="decimal" Precision="10" Scale="4" Nullable="false" />
+          <Property Name="current_01" Type="decimal" Precision="10" Scale="4" Nullable="false" />
+          <Property Name="current_02" Type="decimal" Precision="10" Scale="4" Nullable="false" />
+          <Property Name="current_03" Type="decimal" Precision="10" Scale="4" Nullable="false" />
+          <Property Name="current_n" Type="decimal" Precision="10" Scale="4" Nullable="false" />
+          <Property Name="observations" Type="nvarchar(max)" />
+          <Property Name="employee_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="maintenance_schedule">
+          <Key>
+            <PropertyRef Name="ms_id" />
+          </Key>
+          <Property Name="ms_id" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="type" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="dependency" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="building" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="level" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="location" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="nomenclature" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="month_scheduled" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="termography_files">
+          <Key>
+            <PropertyRef Name="tf_id" />
+          </Key>
+          <Property Name="tf_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="mr_id" Type="int" Nullable="false" />
+          <Property Name="termography_file" Type="varbinary(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_mr_employee_user">
+          <End Role="employee_user" Type="Self.employee_user" Multiplicity="1" />
+          <End Role="maintenance_rutine" Type="Self.maintenance_rutine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employee_user">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="maintenance_rutine">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_mr_maintenance_schedule">
+          <End Role="maintenance_schedule" Type="Self.maintenance_schedule" Multiplicity="1" />
+          <End Role="maintenance_rutine" Type="Self.maintenance_rutine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="maintenance_schedule">
+              <PropertyRef Name="ms_id" />
+            </Principal>
+            <Dependent Role="maintenance_rutine">
+              <PropertyRef Name="ms_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tf_maintenance_rutine">
+          <End Role="maintenance_rutine" Type="Self.maintenance_rutine" Multiplicity="1" />
+          <End Role="termography_files" Type="Self.termography_files" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="maintenance_rutine">
+              <PropertyRef Name="mr_id" />
+            </Principal>
+            <Dependent Role="termography_files">
+              <PropertyRef Name="mr_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BM_010_ISSSModelStoreContainer">
+          <EntitySet Name="employee_user" EntityType="Self.employee_user" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="maintenance_rutine" EntityType="Self.maintenance_rutine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="maintenance_schedule" EntityType="Self.maintenance_schedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="termography_files" EntityType="Self.termography_files" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_mr_employee_user" Association="Self.fk_mr_employee_user">
+            <End Role="employee_user" EntitySet="employee_user" />
+            <End Role="maintenance_rutine" EntitySet="maintenance_rutine" />
+          </AssociationSet>
+          <AssociationSet Name="fk_mr_maintenance_schedule" Association="Self.fk_mr_maintenance_schedule">
+            <End Role="maintenance_schedule" EntitySet="maintenance_schedule" />
+            <End Role="maintenance_rutine" EntitySet="maintenance_rutine" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tf_maintenance_rutine" Association="Self.fk_tf_maintenance_rutine">
+            <End Role="maintenance_rutine" EntitySet="maintenance_rutine" />
+            <End Role="termography_files" EntitySet="termography_files" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BM_010_ISSSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="BM_010_ISSSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="employee_user" EntityType="BM_010_ISSSModel.employee_user" />
+          <EntitySet Name="maintenance_rutine" EntityType="BM_010_ISSSModel.maintenance_rutine" />
+          <EntitySet Name="maintenance_schedule" EntityType="BM_010_ISSSModel.maintenance_schedule" />
+          <EntitySet Name="termography_files" EntityType="BM_010_ISSSModel.termography_files" />
+          <AssociationSet Name="fk_mr_employee_user" Association="BM_010_ISSSModel.fk_mr_employee_user">
+            <End Role="employee_user" EntitySet="employee_user" />
+            <End Role="maintenance_rutine" EntitySet="maintenance_rutine" />
+          </AssociationSet>
+          <AssociationSet Name="fk_mr_maintenance_schedule" Association="BM_010_ISSSModel.fk_mr_maintenance_schedule">
+            <End Role="maintenance_schedule" EntitySet="maintenance_schedule" />
+            <End Role="maintenance_rutine" EntitySet="maintenance_rutine" />
+          </AssociationSet>
+          <AssociationSet Name="fk_tf_maintenance_rutine" Association="BM_010_ISSSModel.fk_tf_maintenance_rutine">
+            <End Role="maintenance_rutine" EntitySet="maintenance_rutine" />
+            <End Role="termography_files" EntitySet="termography_files" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="employee_user">
+          <Key>
+            <PropertyRef Name="employee_id" />
+          </Key>
+          <Property Name="employee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="last_name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="signature" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="role" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+          <Property Name="verification" Type="Boolean" />
+          <NavigationProperty Name="maintenance_rutine" Relationship="BM_010_ISSSModel.fk_mr_employee_user" FromRole="employee_user" ToRole="maintenance_rutine" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="maintenance_rutine">
+          <Key>
+            <PropertyRef Name="mr_id" />
+          </Key>
+          <Property Name="mr_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ms_id" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="location" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="slots_quantity" Type="Int32" Nullable="false" />
+          <Property Name="slots_available" Type="Int32" Nullable="false" />
+          <Property Name="transf_capacity" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="general_protection" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="initial_termography" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="general_cleaning" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="cable_managment" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="retighten" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="rotulation" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="final_termography" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="cover_placement" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="protection_capacity" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="voltage_01" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
+          <Property Name="voltage_02" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
+          <Property Name="voltage_03" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
+          <Property Name="current_01" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
+          <Property Name="current_02" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
+          <Property Name="current_03" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
+          <Property Name="current_n" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
+          <Property Name="observations" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="employee_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="employee_user" Relationship="BM_010_ISSSModel.fk_mr_employee_user" FromRole="maintenance_rutine" ToRole="employee_user" />
+          <NavigationProperty Name="maintenance_schedule" Relationship="BM_010_ISSSModel.fk_mr_maintenance_schedule" FromRole="maintenance_rutine" ToRole="maintenance_schedule" />
+          <NavigationProperty Name="termography_files" Relationship="BM_010_ISSSModel.fk_tf_maintenance_rutine" FromRole="maintenance_rutine" ToRole="termography_files" />
+        </EntityType>
+        <EntityType Name="maintenance_schedule">
+          <Key>
+            <PropertyRef Name="ms_id" />
+          </Key>
+          <Property Name="ms_id" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="type" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="dependency" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="building" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="location" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="nomenclature" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="month_scheduled" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="maintenance_rutine" Relationship="BM_010_ISSSModel.fk_mr_maintenance_schedule" FromRole="maintenance_schedule" ToRole="maintenance_rutine" />
+          <Property Name="level" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="termography_files">
+          <Key>
+            <PropertyRef Name="tf_id" />
+          </Key>
+          <Property Name="tf_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="mr_id" Type="Int32" Nullable="false" />
+          <Property Name="termography_file" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="maintenance_rutine" Relationship="BM_010_ISSSModel.fk_tf_maintenance_rutine" FromRole="termography_files" ToRole="maintenance_rutine" />
+        </EntityType>
+        <Association Name="fk_mr_employee_user">
+          <End Type="BM_010_ISSSModel.employee_user" Role="employee_user" Multiplicity="1" />
+          <End Type="BM_010_ISSSModel.maintenance_rutine" Role="maintenance_rutine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employee_user">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="maintenance_rutine">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_mr_maintenance_schedule">
+          <End Type="BM_010_ISSSModel.maintenance_schedule" Role="maintenance_schedule" Multiplicity="1" />
+          <End Type="BM_010_ISSSModel.maintenance_rutine" Role="maintenance_rutine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="maintenance_schedule">
+              <PropertyRef Name="ms_id" />
+            </Principal>
+            <Dependent Role="maintenance_rutine">
+              <PropertyRef Name="ms_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_tf_maintenance_rutine">
+          <End Type="BM_010_ISSSModel.maintenance_rutine" Role="maintenance_rutine" Multiplicity="1" />
+          <End Type="BM_010_ISSSModel.termography_files" Role="termography_files" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="maintenance_rutine">
+              <PropertyRef Name="mr_id" />
+            </Principal>
+            <Dependent Role="termography_files">
+              <PropertyRef Name="mr_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BM_010_ISSSModelStoreContainer" CdmEntityContainer="BM_010_ISSSEntities">
+          <EntitySetMapping Name="employee_user">
+            <EntityTypeMapping TypeName="BM_010_ISSSModel.employee_user">
+              <MappingFragment StoreEntitySet="employee_user">
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="verification" ColumnName="verification" />
+                <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="signature" ColumnName="signature" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="maintenance_rutine">
+            <EntityTypeMapping TypeName="BM_010_ISSSModel.maintenance_rutine">
+              <MappingFragment StoreEntitySet="maintenance_rutine">
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="observations" ColumnName="observations" />
+                <ScalarProperty Name="current_n" ColumnName="current_n" />
+                <ScalarProperty Name="current_03" ColumnName="current_03" />
+                <ScalarProperty Name="current_02" ColumnName="current_02" />
+                <ScalarProperty Name="current_01" ColumnName="current_01" />
+                <ScalarProperty Name="voltage_03" ColumnName="voltage_03" />
+                <ScalarProperty Name="voltage_02" ColumnName="voltage_02" />
+                <ScalarProperty Name="voltage_01" ColumnName="voltage_01" />
+                <ScalarProperty Name="protection_capacity" ColumnName="protection_capacity" />
+                <ScalarProperty Name="cover_placement" ColumnName="cover_placement" />
+                <ScalarProperty Name="final_termography" ColumnName="final_termography" />
+                <ScalarProperty Name="rotulation" ColumnName="rotulation" />
+                <ScalarProperty Name="retighten" ColumnName="retighten" />
+                <ScalarProperty Name="cable_managment" ColumnName="cable_managment" />
+                <ScalarProperty Name="general_cleaning" ColumnName="general_cleaning" />
+                <ScalarProperty Name="initial_termography" ColumnName="initial_termography" />
+                <ScalarProperty Name="general_protection" ColumnName="general_protection" />
+                <ScalarProperty Name="transf_capacity" ColumnName="transf_capacity" />
+                <ScalarProperty Name="slots_available" ColumnName="slots_available" />
+                <ScalarProperty Name="slots_quantity" ColumnName="slots_quantity" />
+                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="ms_id" ColumnName="ms_id" />
+                <ScalarProperty Name="mr_id" ColumnName="mr_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="maintenance_schedule">
+            <EntityTypeMapping TypeName="BM_010_ISSSModel.maintenance_schedule">
+              <MappingFragment StoreEntitySet="maintenance_schedule">
+                <ScalarProperty Name="level" ColumnName="level" />
+                <ScalarProperty Name="month_scheduled" ColumnName="month_scheduled" />
+                <ScalarProperty Name="nomenclature" ColumnName="nomenclature" />
+                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="building" ColumnName="building" />
+                <ScalarProperty Name="dependency" ColumnName="dependency" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="ms_id" ColumnName="ms_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="termography_files">
+            <EntityTypeMapping TypeName="BM_010_ISSSModel.termography_files">
+              <MappingFragment StoreEntitySet="termography_files">
+                <ScalarProperty Name="termography_file" ColumnName="termography_file" />
+                <ScalarProperty Name="mr_id" ColumnName="mr_id" />
+                <ScalarProperty Name="tf_id" ColumnName="tf_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
