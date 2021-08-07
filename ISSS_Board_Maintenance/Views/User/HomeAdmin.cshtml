@@ -1,11 +1,14 @@
-﻿@section Styles{
-    @Styles.Render("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900");
+﻿@{ ViewBag.Title = "Tablero Administrador"; }
+
+@section Styles{
+    @Styles.Render("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900")
     @Styles.Render("~/fonts/font-awesome-4.7.0/css/font-awesome.min.css")
     @Styles.Render("~/fonts/iconic/css/material-design-iconic-font.min.css")
-    @Styles.Render("~/Content/nav_style.scss")
+    @Styles.Render("~/Content/nav_style.css")
+    @Styles.Render("~/Content/bootstrap.min.css");
 }
 <div class="wrapper d-flex align-items-stretch">
-    <nav id="sidebar" class="active">
+    <nav id="sidebar" class="active fixed-left" style="position:fixed;height:100%">
         <div class="custom-menu">
             <button type="button" id="sidebarCollapse" class="btn btn-primary">
                 <i class="fa fa-bars"></i>
@@ -13,53 +16,229 @@
             </button>
         </div>
         <div class="p-4">
-            <h1><a href="index.html" class="logo">Flash</a></h1>
-            <ul class="list-unstyled components mb-5">
-                <li class="active">
-                    <a href="#"><span class="fa fa-home mr-3"></span> Home</a>
+            <h1><a class="logo">Opciones</a></h1>
+            <ul class="list-unstyled components mb-5" style="cursor:pointer">
+                <li id="planifBtn" class="active">
+                    <a><span class="fa fa-clipboard mr-3"></span> Planificación Mensual</a>
                 </li>
-                <li>
-                    <a href="#"><span class="fa fa-user mr-3"></span> About</a>
+                <li id="rutineBtn">
+                    <a><span class="fa fa-wrench mr-3"></span> Rutinas Mensuales</a>
                 </li>
-                <li>
-                    <a href="#"><span class="fa fa-briefcase mr-3"></span> Portfolio</a>
-                </li>
-                <li>
-                    <a href="#"><span class="fa fa-sticky-note mr-3"></span> Blog</a>
-                </li>
-                <li>
-                    <a href="#"><span class="fa fa-paper-plane mr-3"></span> Contact</a>
+                <li id="userBtn">
+                    <a><span class="fa fa-user-circle mr-3"></span> Usuarios</a>
                 </li>
             </ul>
-
-            <div class="mb-5">
-                <h3 class="h6 mb-3">Subscribe for newsletter</h3>
-                <form action="#" class="subscribe-form">
-                    <div class="form-group d-flex">
-                        <div class="icon"><span class="icon-paper-plane"></span></div>
-                        <input type="text" class="form-control" placeholder="Enter Email Address">
-                    </div>
-                </form>
-            </div>
-
             <div class="footer">
-                <p>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;
-                    <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib.com</a>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                </p>
+                <ul class="list-unstyled components mb-5">
+                    <li style="position:absolute; bottom:0px">
+                        <a style="cursor:pointer" id="logOutBtn"><span class="fa fa-sign-out mr-3"></span> Cerrar Sesión</a>
+                    </li>
+                </ul>
             </div>
-
         </div>
     </nav>
 
     <!-- Page Content  -->
-    <div id="content" class="p-4 p-md-5 pt-5">
-        <h2 class="mb-4">Sidebar #03</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <div id="content" class="p-4 p-md-5 pt-5" style="margin-left:50px">
+        <h2 class="mb-4">Tablero de Administrador</h2>
+
+        <div class="modal fade" id="createScheduleModal" role="dialog">
+            <div class="modal-dialog" style="max-width:25% !important;">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Agregar nuevo tablero</h4>
+                        <button type="button" class="close" data-dismiss="modal" style="margin-top:unset;">&times;</button>
+                    </div>
+                    <div class="modal-body" style="margin-left: 35px; margin-right: 35px;">
+                        @{ Html.RenderAction("Create", "Schedule"); }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="editScheduleModal" role="dialog">
+            <div class="modal-dialog" style="max-width:25% !important;">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Editar tablero</h4>
+                        <button type="button" class="close" data-dismiss="modal" style="margin-top:unset;">&times;</button>
+                    </div>
+                    <div class="modal-body" style="margin-left: 35px; margin-right: 35px;">
+                        @{ Html.RenderAction("Edit", "Schedule"); }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteScheduleModal" role="dialog">
+            <div class="modal-dialog" style="max-width:25% !important;">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Eliminar tablero</h4>
+                        <button type="button" class="close" data-dismiss="modal" style="margin-top:unset;">&times;</button>
+                    </div>
+                    <div class="modal-body" style="margin-left: 35px; margin-right: 35px;">
+                        <div style="color:red;display:block;">
+                            <strong>Advertencia!</strong>
+                            <br />¿Está seguro de querer eliminar este tablero?
+                            <br />Todos los elementos asociados a este tablero serán eliminados
+                            <br /><br />
+                            <div style="margin-left:20px;margin-right:20px">
+                                <button type="button" class="btn btn-danger btn-lg dltSchedule" style="margin-right:30px;">Aceptar</button>
+                                <button id="disposeDeleteModal" type="button" class="btn btn-success btn-lg">Cancelar</button>
+                            </div>
+                        </div><br />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteRutineModal" role="dialog">
+            <div class="modal-dialog" style="max-width:25% !important;">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Eliminar Rutina</h4>
+                        <button type="button" class="close" data-dismiss="modal" style="margin-top:unset;">&times;</button>
+                    </div>
+                    <div class="modal-body" style="margin-left: 35px; margin-right: 35px;">
+                        <div style="color:red;display:block;">
+                            <strong>Advertencia!</strong>
+                            <br />¿Está seguro de querer eliminar esta rutina?
+                            <br />Todos los elementos asociados a esta rutina serán eliminados
+                            <br /><br />
+                            <div style="margin-left:20px;margin-right:20px">
+                                <button type="button" class="btn btn-danger btn-lg dltRutine" style="margin-right:30px;">Aceptar</button>
+                                <button id="disposeDeleteRutModal" type="button" class="btn btn-success btn-lg">Cancelar</button>
+                            </div>
+                        </div><br />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="scheduleDiv" style="display:block;">
+            @{ Html.RenderAction("Index", "Schedule"); }
+        </div>
+        <div id="rutinesDiv" style="display:none;">
+            @{ Html.RenderAction("Index", "Rutine"); }
+        </div>
+        <div id="usersDiv" style="display:none;">
+            @{ Html.RenderAction("List", "User"); }
+        </div>
     </div>
 </div>
 
-@Scripts.Render("~/Scripts/login_signin.js")
+@section Scripts
+{
+    @Scripts.Render("~/Scripts/bootstrap.min.js")
+    @Scripts.Render("~/Scripts/jquery-3.4.1.min.js")
+    @Scripts.Render("~/Scripts/nav_main.js")
+    @Scripts.Render("https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js")
+
+<script>
+            $(document).ready(function () {
+                $("#logOutBtn").click(function () {
+                    window.location.href = "@Url.Action("logOut","User")";
+                });
+                $("#planifBtn").click(function () {
+                    resetActive(this, "#scheduleDiv");
+                });
+                $("#rutineBtn").click(function () {
+                    resetActive(this, "#rutinesDiv");
+                });
+                $("#userBtn").click(function () {
+                    resetActive(this, "#usersDiv");
+                });
+                $("#disposeDeleteModal").click(function () {
+                    $("#deleteScheduleModal").modal('hide');
+                });
+                $("#disposeDeleteRutModal").click(function () {
+                    $("#deleteRutineModal").modal('hide');
+                });
+                $(".dltSchedule").click(function () {
+                    var id = $(this).attr("id");
+                    window.location.href = '@Url.Action("Delete","Schedule")?id=' + id;
+                });
+                $(".dltRutine").click(function () {
+                    var id = $(this).attr("id");
+                    window.location.href = '@Url.Action("Delete","Rutine")?id=' + id;
+                });
+                function resetActive(object, div) {
+                    if (!($(object).hasClass("active"))) {
+                        $("#planifBtn").removeClass("active");
+                        $("#rutineBtn").removeClass("active");
+                        $("#userBtn").removeClass("active");
+                        $(object).addClass("active");
+                        $("#scheduleDiv").hide();
+                        $("#rutinesDiv").hide();
+                        $("#usersDiv").hide();
+                        $(div).show();
+                    }
+                }
+            });
+</script>
+}
+
+@{
+    if (null != TempData["UsersChanged"])
+    {
+        <script>
+            resetActive("#userBtn", "#usersDiv");
+            function resetActive(object, div) {
+                if (!($(object).hasClass("active"))) {
+                    $("#planifBtn").removeClass("active");
+                    $("#rutineBtn").removeClass("active");
+                    $("#userBtn").removeClass("active");
+                    $(object).addClass("active");
+                    $("#scheduleDiv").hide();
+                    $("#rutinesDiv").hide();
+                    $("#usersDiv").hide();
+                    $(div).show();
+                }
+            }
+        </script>
+    }
+    if (null != TempData["noFullDataSchedule"])
+    {
+        <script>
+            $("#createScheduleModal").modal('show');
+            $("#alertMessage6").show();
+        </script>
+    }
+    if (null != TempData["noFullDataScheduleEdit"])
+    {
+<script>
+            var id = '@TempData["noFullDataScheduleEdit"]'
+                $.ajax({
+                    type: "GET",
+                    url: "https://localhost:44305/api/ScheduleAPI/" + id,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        $(".editScheduleF#ms_id").val(response.ms_id);
+                        $(".editScheduleF#type").val(response.type);
+                        $(".editScheduleF#dependency").val(response.dependency);
+                        $(".editScheduleF#building").val(response.building);
+                        $(".editScheduleF#level").val(response.level);
+                        $(".editScheduleF#location").val(response.location);
+                        $(".editScheduleF#nomenclature").val(response.nomenclature);
+                        $(".editScheduleF#month_scheduled").val(response.month_scheduled);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                        alert("Failure");
+                    },
+                    error: function (response) {
+                        alert(response);
+                        alert("Error");
+                    }
+                });
+            $("#editScheduleModal").modal('show');
+            $("#alertMessage7").show();
+</script>
+    }
+}

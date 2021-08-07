@@ -22,6 +22,7 @@ namespace ISSS_Board_Maintenance.Models
     
         public int mr_id { get; set; }
         public string ms_id { get; set; }
+        public Nullable<System.DateTime> date { get; set; }
         public string description { get; set; }
         public string location { get; set; }
         public int slots_quantity { get; set; }

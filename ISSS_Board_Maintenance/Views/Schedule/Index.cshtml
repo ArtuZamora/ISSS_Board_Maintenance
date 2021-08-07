@@ -1,0 +1,120 @@
+﻿@model IEnumerable<ISSS_Board_Maintenance.Models.maintenance_scheduleCE>
+
+@Styles.Render("~/Content/bootstrap.min.css")
+
+<a id="createSchedule" style="cursor:pointer; color:darkblue;">
+    Crear Nuevo
+</a>
+<table class="table">
+    <tr>
+        <th>
+            Código
+        </th>
+        <th>
+            Tipo
+        </th>
+        <th>
+            Dependencia
+        </th>
+        <th>
+            Edificio
+        </th>
+        <th>
+            Nivel
+        </th>
+        <th>
+            Posición
+        </th>
+        <th>
+            Nomenclatura
+        </th>
+        <th>
+            Mes
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ms_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dependency)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.building)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.level)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nomenclature)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.month_scheduled_name)
+            </td>
+            <td>
+                <a id="@item.ms_id" class="editSchedule" style="cursor:pointer; color:blue;">
+                    Editar
+                </a>
+                |
+                <a id="@item.ms_id" class="deleteSchedule" style="cursor:pointer; color:darkblue;">
+                    Eliminar
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#createSchedule").click(function () {
+                $("#createScheduleModal").modal('show');
+            });
+            $(".deleteSchedule").click(function () {
+                var id = $(this).attr("id");
+                $(".dltSchedule").attr("id", id);
+                $("#deleteScheduleModal").modal('show');
+            });
+            $(".editSchedule").click(function () {
+                var id = $(this).attr("id");
+                $(".dltSchedule").attr("id", id);
+                $.ajax({
+                    type: "GET",
+                    url: "https://localhost:44305/api/ScheduleAPI/" + id,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        $(".editScheduleF#ms_id").val(response.ms_id);
+                        $(".editScheduleF#type").val(response.type);
+                        $(".editScheduleF#dependency").val(response.dependency);
+                        $(".editScheduleF#building").val(response.building);
+                        $(".editScheduleF#level").val(response.level);
+                        $(".editScheduleF#location").val(response.location);
+                        $(".editScheduleF#nomenclature").val(response.nomenclature);
+                        $(".editScheduleF#month_scheduled").val(response.month_scheduled);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                        alert("Failure");
+                    },
+                    error: function (response) {
+                        alert(response);
+                        alert("Error");
+                    }
+                });
+                $("#editScheduleModal").modal('show');
+            });
+        });
+    </script>
+}

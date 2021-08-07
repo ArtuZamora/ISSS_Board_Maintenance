@@ -50,6 +50,15 @@
                 <span class="focus-input100"></span>
             </div>
 
+            <div id="alertMessage" style="color:red;display:none;">
+                <strong>Error!</strong> Usuario y/o contraseña incorrectos.
+            </div>
+
+            <div id="alertMessage4" style="color:red;display:none;">
+                <strong>Error!</strong> Cuenta no verificada
+            </div>
+
+            <br />
             <div class="container-login100-form-btn">
                 <button type="submit" class="login100-form-btn">
                     Iniciar Sesión
@@ -71,5 +80,20 @@
     @Scripts.Render("~/vendor/daterangepicker/moment.min.js")
     @Scripts.Render("~/vendor/daterangepicker/daterangepicker.js")
     @Scripts.Render("~/vendor/countdowntime/countdowntime.js")
-    @Scripts.Render("~/Scripts/login_main.js")
+}
+@{
+    if (null != TempData["alertMessage"])
+    {
+        <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+        <script>
+            $("#alertMessage").show();
+        </script>
+    }
+    if (null != TempData["unverifiedAcc"])
+    {
+        <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+        <script>
+            $("#alertMessage4").show();
+        </script>
+    }
 }

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<ISSS_Board_Maintenance.Models.employee_user>
+<table class="table">
+    <tr>
+        <th>
+            Nombres
+        </th>
+        <th>
+            Apellidos
+        </th>
+        <th>
+            Nombre de usuario
+        </th>
+        <th>
+            Firma
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr style="background-color:@((bool)item.verification ? "#90EE90" : "#FFCCCB")">
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.last_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.username)
+            </td>
+            <td>
+                <img src="@Url.Action("GetSignature", "User", new { id = item.employee_id })" height="75" width="225">
+            </td>
+            <td>
+                @Html.ActionLink("Dar de alta", "SuscribeUser", new { id = item.employee_id }) |
+                @Html.ActionLink("Dar de baja", "UnsuscribeUser", new { id = item.employee_id })
+            </td>
+        </tr>
+    }
+
+</table>

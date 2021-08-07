@@ -1,0 +1,139 @@
+﻿@model IEnumerable<ISSS_Board_Maintenance.Models.maintenance_rutineCE>
+
+<div>
+    <table>
+        <tr>
+            <td>
+                Mes de planificación
+                <select class="form-control" id="month_scheduledOPT" name="month_scheduled" style="width:auto; margin-right:30px;">
+                    <option value="1">Enero</option>
+                    <option value="2">Febrero</option>
+                    <option value="3">Marzo</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Mayo</option>
+                    <option value="6">Junio</option>
+                    <option value="7">Julio</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                </select>
+            </td>
+            <td>
+                Tablero
+                <select class="form-control" id="board" name="board">
+                </select>
+            </td>
+        </tr>
+    </table>
+</div>
+<br />
+<table class="table" id="rutineTable">
+    <tr>
+        <th>
+            Código de rutina
+        </th>
+        <th>
+            Código de tablero
+        </th>
+        <th>
+            Fecha de realización
+        </th>
+        <th>
+            Subido por
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.mr_id)
+            </td>
+            <td class="ms_id">
+                @Html.DisplayFor(modelItem => item.ms_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.employee_user_full_name)
+            </td>
+            <td>
+                <a id="@item.mr_id" class="deleteRutine" style="cursor:pointer; color:darkblue;">
+                    Eliminar
+                </a>
+                |
+                <a id="D-@item.mr_id" class="downloadRutineArchives" style="cursor:pointer; color:darkblue;">
+                    Descargar Archivos
+                </a>
+                |
+                <a id="R-@item.mr_id" class="downloadRutineReport" style="cursor:pointer; color:darkblue;">
+                    Descargar Reporte
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>
+<!-- Zona de gráficas -->
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            window.onload = function () {
+                loadBoards(1);
+            }
+            $("#month_scheduledOPT").on('change', function () {
+                $("#board").find('option').remove().end();
+                var id = $("#month_scheduledOPT").val();
+                loadBoards(id);
+            });
+            $("#board").on('change', function () {
+                filterTable();
+            });
+            $(".deleteRutine").click(function () {
+                var id = $(this).attr("id");
+                $(".dltRutine").attr("id", id);
+                $("#deleteRutineModal").modal('show');
+            });
+            $(".downloadRutineArchives").click(function () {
+                var id = $(this).attr("id").substring(2);
+                window.location= '@Url.Action("DownloadAttachment", "Rutine")?id=' + id;
+            });
+            $(".downloadRutineReport").click(function () {
+                var id = $(this).attr("id").substring(2);
+                window.location= '@Url.Action("DetailsAsPDF", "Rutine")?id=' + id;
+            });
+        });
+        function filterTable() {
+            var ms_id = $("#board").val();
+            $("#rutineTable td.ms_id:contains('" + ms_id + "')").parent().show();
+            $("#rutineTable td.ms_id:not(:contains('" + ms_id + "'))").parent().hide();
+        }
+        function loadBoards(id) {
+            $.ajax({
+                type: "GET",
+                url: "https://localhost:44305/api/ScheduleAPI/1/" + id,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    $.each(response, function (index) {
+                        $("#board").append(new Option(response[index], response[index]));
+                    });
+                    filterTable();
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                    alert("Failure");
+                },
+                error: function (response) {
+                    alert(response);
+                    alert("Error");
+                }
+            });
+        }
+    </script>
+} 

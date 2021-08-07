@@ -24,6 +24,7 @@
           </Key>
           <Property Name="mr_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ms_id" Type="char" MaxLength="6" Nullable="false" />
+          <Property Name="date" Type="datetime" />
           <Property Name="description" Type="varchar(max)" Nullable="false" />
           <Property Name="location" Type="varchar(max)" Nullable="false" />
           <Property Name="slots_quantity" Type="int" Nullable="false" />
@@ -68,9 +69,13 @@
           <Property Name="tf_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="mr_id" Type="int" Nullable="false" />
           <Property Name="termography_file" Type="varbinary(max)" Nullable="false" />
+          <Property Name="termography_file_name" Type="varchar(max)" Nullable="false" />
+          <Property Name="termography_file_extension" Type="varchar(max)" Nullable="false" />
         </EntityType>
         <Association Name="fk_mr_employee_user">
-          <End Role="employee_user" Type="Self.employee_user" Multiplicity="1" />
+          <End Role="employee_user" Type="Self.employee_user" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="maintenance_rutine" Type="Self.maintenance_rutine" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="employee_user">
@@ -82,7 +87,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_mr_maintenance_schedule">
-          <End Role="maintenance_schedule" Type="Self.maintenance_schedule" Multiplicity="1" />
+          <End Role="maintenance_schedule" Type="Self.maintenance_schedule" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="maintenance_rutine" Type="Self.maintenance_rutine" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="maintenance_schedule">
@@ -94,7 +101,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_tf_maintenance_rutine">
-          <End Role="maintenance_rutine" Type="Self.maintenance_rutine" Multiplicity="1" />
+          <End Role="maintenance_rutine" Type="Self.maintenance_rutine" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="termography_files" Type="Self.termography_files" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="maintenance_rutine">
@@ -150,14 +159,14 @@
             <PropertyRef Name="employee_id" />
           </Key>
           <Property Name="employee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="last_name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="signature" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
           <Property Name="role" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
           <Property Name="verification" Type="Boolean" />
           <NavigationProperty Name="maintenance_rutine" Relationship="BM_010_ISSSModel.fk_mr_employee_user" FromRole="employee_user" ToRole="maintenance_rutine" />
-          <Property Name="username" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="maintenance_rutine">
           <Key>
@@ -165,6 +174,7 @@
           </Key>
           <Property Name="mr_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ms_id" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="false" />
+          <Property Name="date" Type="DateTime" Precision="3" />
           <Property Name="description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="location" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="slots_quantity" Type="Int32" Nullable="false" />
@@ -200,11 +210,11 @@
           <Property Name="type" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="dependency" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="building" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="level" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="location" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="nomenclature" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="month_scheduled" Type="Int32" Nullable="false" />
           <NavigationProperty Name="maintenance_rutine" Relationship="BM_010_ISSSModel.fk_mr_maintenance_schedule" FromRole="maintenance_schedule" ToRole="maintenance_rutine" />
-          <Property Name="level" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="termography_files">
           <Key>
@@ -214,6 +224,8 @@
           <Property Name="mr_id" Type="Int32" Nullable="false" />
           <Property Name="termography_file" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="maintenance_rutine" Relationship="BM_010_ISSSModel.fk_tf_maintenance_rutine" FromRole="termography_files" ToRole="maintenance_rutine" />
+          <Property Name="termography_file_name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="termography_file_extension" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="fk_mr_employee_user">
           <End Type="BM_010_ISSSModel.employee_user" Role="employee_user" Multiplicity="1" />
@@ -251,7 +263,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -260,13 +272,13 @@
           <EntitySetMapping Name="employee_user">
             <EntityTypeMapping TypeName="BM_010_ISSSModel.employee_user">
               <MappingFragment StoreEntitySet="employee_user">
-                <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="verification" ColumnName="verification" />
                 <ScalarProperty Name="role" ColumnName="role" />
                 <ScalarProperty Name="signature" ColumnName="signature" />
                 <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="employee_id" ColumnName="employee_id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -297,6 +309,7 @@
                 <ScalarProperty Name="slots_quantity" ColumnName="slots_quantity" />
                 <ScalarProperty Name="location" ColumnName="location" />
                 <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="ms_id" ColumnName="ms_id" />
                 <ScalarProperty Name="mr_id" ColumnName="mr_id" />
               </MappingFragment>
@@ -305,10 +318,10 @@
           <EntitySetMapping Name="maintenance_schedule">
             <EntityTypeMapping TypeName="BM_010_ISSSModel.maintenance_schedule">
               <MappingFragment StoreEntitySet="maintenance_schedule">
-                <ScalarProperty Name="level" ColumnName="level" />
                 <ScalarProperty Name="month_scheduled" ColumnName="month_scheduled" />
                 <ScalarProperty Name="nomenclature" ColumnName="nomenclature" />
                 <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="level" ColumnName="level" />
                 <ScalarProperty Name="building" ColumnName="building" />
                 <ScalarProperty Name="dependency" ColumnName="dependency" />
                 <ScalarProperty Name="type" ColumnName="type" />
@@ -319,6 +332,8 @@
           <EntitySetMapping Name="termography_files">
             <EntityTypeMapping TypeName="BM_010_ISSSModel.termography_files">
               <MappingFragment StoreEntitySet="termography_files">
+                <ScalarProperty Name="termography_file_extension" ColumnName="termography_file_extension" />
+                <ScalarProperty Name="termography_file_name" ColumnName="termography_file_name" />
                 <ScalarProperty Name="termography_file" ColumnName="termography_file" />
                 <ScalarProperty Name="mr_id" ColumnName="mr_id" />
                 <ScalarProperty Name="tf_id" ColumnName="tf_id" />

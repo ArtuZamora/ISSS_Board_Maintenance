@@ -1,0 +1,90 @@
+﻿@model ISSS_Board_Maintenance.Models.maintenance_schedule
+
+@using (Html.BeginForm("Edit", "Schedule", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ms_id, new { @class = "form-control editScheduleF" })
+
+        <div class="form-group">
+            Tipo/Descripción
+            <div>
+                @Html.EditorFor(model => model.type, new { htmlAttributes = new { @class = "form-control editScheduleF" } })
+                @Html.ValidationMessageFor(model => model.type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Dependencia
+            <div>
+                @Html.EditorFor(model => model.dependency, new { htmlAttributes = new { @class = "form-control editScheduleF" } })
+                @Html.ValidationMessageFor(model => model.dependency, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Edificio
+            <div>
+                @Html.EditorFor(model => model.building, new { htmlAttributes = new { @class = "form-control editScheduleF" } })
+                @Html.ValidationMessageFor(model => model.building, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Nivel
+            <div>
+                @Html.EditorFor(model => model.level, new { htmlAttributes = new { @class = "form-control editScheduleF" } })
+                @Html.ValidationMessageFor(model => model.level, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Posición
+            <div>
+                @Html.EditorFor(model => model.location, new { htmlAttributes = new { @class = "form-control editScheduleF" } })
+                @Html.ValidationMessageFor(model => model.location, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Nomenclatura
+            <div>
+                @Html.EditorFor(model => model.nomenclature, new { htmlAttributes = new { @class = "form-control editScheduleF" } })
+                @Html.ValidationMessageFor(model => model.nomenclature, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Mes de planificación
+            <div>
+                <select class="form-control editScheduleF" id="month_scheduled" name="month_scheduled">
+                    <option value="1">Enero</option>
+                    <option value="2">Febrero</option>
+                    <option value="3">Marzo</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Mayo</option>
+                    <option value="6">Junio</option>
+                    <option value="7">Julio</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.month_scheduled, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div id="alertMessage7" style="color:red;display:none;">
+            <strong>Error!</strong> Todos los datos deben ser llenados.
+        </div><br />
+
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-10">
+                <input type="submit" value="Editar" class="btn btn-info btn-lg" />
+            </div>
+        </div>
+    </div>
+}
