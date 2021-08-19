@@ -1,0 +1,13 @@
+﻿@using (Html.BeginForm("UploadTermographyFiles", "Rutine", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.Hidden("id")
+    <div>
+        Ingresar Archivos:
+        <input type="file" id="termographyFiles" name="termographyFiles" class="form-control" multiple><br>
+        <div class="d-flex justify-content-center">
+            <button id="addTF" type="submit" class="btn btn-primary btn-lg">Agregar</button>
+        </div>
+    </div>
+}

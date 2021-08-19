@@ -11,7 +11,7 @@ namespace ISSS_Board_Maintenance.Models
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class employee_user
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,21 +19,21 @@ namespace ISSS_Board_Maintenance.Models
         {
             this.maintenance_rutine = new HashSet<maintenance_rutine>();
         }
-
+    
         public int employee_id { get; set; }
         public string username { get; set; }
         public string name { get; set; }
         public string password { get; set; }
         public string last_name { get; set; }
-        public byte[] signature { get; set; }
+        public string signature { get; set; }
         public string role { get; set; }
         public Nullable<bool> verification { get; set; }
-
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<maintenance_rutine> maintenance_rutine { get; set; }
         public string GetFullName()
         {
-            return name + " " + last_name;
+            return this.name + " " + this.last_name;
         }
     }
 }

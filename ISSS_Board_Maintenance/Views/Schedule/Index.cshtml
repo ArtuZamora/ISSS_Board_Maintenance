@@ -77,6 +77,8 @@
 
 @section Scripts {
     <script>
+        var getUrl = window.location;
+        var baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
         $(document).ready(function () {
             $("#createSchedule").click(function () {
                 $("#createScheduleModal").modal('show');
@@ -87,11 +89,13 @@
                 $("#deleteScheduleModal").modal('show');
             });
             $(".editSchedule").click(function () {
+                var getUrl = window.location;
+                var baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
                 var id = $(this).attr("id");
                 $(".dltSchedule").attr("id", id);
                 $.ajax({
                     type: "GET",
-                    url: "https://localhost:44305/api/ScheduleAPI/" + id,
+                    url: baseUrl + "api/ScheduleAPI/" + id,
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {
@@ -103,14 +107,6 @@
                         $(".editScheduleF#location").val(response.location);
                         $(".editScheduleF#nomenclature").val(response.nomenclature);
                         $(".editScheduleF#month_scheduled").val(response.month_scheduled);
-                    },
-                    failure: function (response) {
-                        alert(response.responseText);
-                        alert("Failure");
-                    },
-                    error: function (response) {
-                        alert(response);
-                        alert("Error");
                     }
                 });
                 $("#editScheduleModal").modal('show');

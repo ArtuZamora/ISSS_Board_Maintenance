@@ -1,1 +1,142 @@
-﻿
+﻿@{ ViewBag.Title = "Tablero Administrador"; }
+
+@section Styles{
+    @Styles.Render("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900")
+    @Styles.Render("~/fonts/font-awesome-4.7.0/css/font-awesome.min.css")
+    @Styles.Render("~/fonts/iconic/css/material-design-iconic-font.min.css")
+    @Styles.Render("~/Content/nav_style.css")
+    @Styles.Render("~/Content/bootstrap.min.css")
+}
+<div class="wrapper d-flex align-items-stretch">
+    <nav id="sidebar" class="active fixed-left" style="position: fixed; height: 100%; z-index: 100; ">
+        <div class="custom-menu">
+            <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                <i class="fa fa-bars"></i>
+                <span class="sr-only">Toggle Menu</span>
+            </button>
+        </div>
+        <div class="p-4">
+            <h1><a class="logo">Planificación</a></h1>
+            <div style="overflow:auto">
+                <ul class="list-unstyled components mb-5" id="monthOptions" style="cursor:pointer">
+                    <li id="year-1" class="active months">
+                        <a>Enero</a>
+                    </li>
+                    <li id="year-2" class="months">
+                        <a>Febrero</a>
+                    </li>
+                    <li id="year-3" class="months">
+                        <a>Marzo</a>
+                    </li>
+                    <li id="year-4" class="months">
+                        <a>Abril</a>
+                    </li>
+                    <li id="year-5" class="months">
+                        <a>Mayo</a>
+                    </li>
+                    <li id="year-6" class="months">
+                        <a>Junio</a>
+                    </li>
+                    <li id="year-7" class="months">
+                        <a>Julio</a>
+                    </li>
+                    <li id="year-8" class="months">
+                        <a>Agosto</a>
+                    </li>
+                    <li id="year-9" class="months">
+                        <a>Septiembre</a>
+                    </li>
+                    <li id="year-10" class="months">
+                        <a>Octubre</a>
+                    </li>
+                    <li id="year-11" class="months">
+                        <a>Nomviembre</a>
+                    </li>
+                    <li id="year-12" class="months">
+                        <a>Diciembre</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer">
+                <ul class="list-unstyled components mb-5">
+                    <li style="position:relative; bottom:0px">
+                        <a style="cursor:pointer" id="logOutBtn"><span class="fa fa-sign-out mr-3"></span> Cerrar Sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content  -->
+
+    <div id="content" class="p-4 p-md-5 pt-5" style="margin-left:50px">
+        <h2 class="mb-4">Administración de rutinas de mantenimiento</h2>
+
+        <div class="modal fade" id="uploadFilesModal" role="dialog">
+            <div class="modal-dialog" style="max-width:25% !important;">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Agregar archivos termográficos</h4>
+                        <button type="button" class="close" data-dismiss="modal" style="margin-top:unset;">&times;</button>
+                    </div>
+                    <div id="modal-body-content" class="modal-body" style="margin-left: 35px; margin-right: 35px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="contentDiv">
+            @{ Html.RenderAction("IndexEmployee", "Schedule", new { id = 1 }); }
+        </div>
+
+        <div id="rutineDiv">
+        </div>
+
+        <div id="createRutineDiv" style="display:none;">
+            @{ Html.RenderAction("Create", "Rutine"); }
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    @Scripts.Render("~/Scripts/bootstrap.min.js")
+    @Scripts.Render("~/Scripts/jquery-3.4.1.min.js")
+    @Scripts.Render("~/Scripts/nav_main.js")
+    @Scripts.Render("~/Scripts/Highcharts-4.0.1/js/highcharts.js")
+    @Scripts.Render("https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js")
+    <script>
+        var getUrl = window.location;
+        var baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
+        $(document).ready(function () {
+            $("#addTF").click(function () {
+                window.location.href = "@Url.Action("UploadTermographyFiles", "Rutine")";
+            });
+            $("#logOutBtn").click(function () {
+                window.location.href = "@Url.Action("logOut", "User")";
+            });
+            $(".months").click(function () {
+                if (!$(this).hasClass("active")) {
+                    $("#monthOptions li").removeClass("active");
+                    $(this).addClass("active");
+                    var id = $(this).attr("id").substring(5);
+                    $("#contentDiv").empty();
+                    $("#createRutineDiv").hide();
+                    $("#rutineDiv").hide();
+                    $("#contentDiv").show();
+                    $.ajax({
+                        type: "GET",
+                        url: baseUrl + "Schedule/IndexEmployee/" + id,
+                        dataType: "HTML",
+                        success: function (response) {
+                            $("#contentDiv").html(response);
+                        }
+                    });
+                }
+            });
+            $("#FullNameCreateRutine").text('@Session["fullname"]');
+            $("#SignatureCreateRutine").attr('src','@Url.Action("GetSignature", "User", new { id = Convert.ToInt32(Session["id"].ToString()) })');
+    });
+    </script>
+}

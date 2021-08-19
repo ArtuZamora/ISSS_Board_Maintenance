@@ -66,74 +66,96 @@
                     Eliminar
                 </a>
                 |
-                <a id="D-@item.mr_id" class="downloadRutineArchives" style="cursor:pointer; color:darkblue;">
-                    Descargar Archivos
-                </a>
-                |
                 <a id="R-@item.mr_id" class="downloadRutineReport" style="cursor:pointer; color:darkblue;">
                     Descargar Reporte
                 </a>
+                @{
+                    if (item.hasFiles)
+                    {
+                        <a>|</a>
+                        <a id="D-@item.mr_id" class="downloadRutineArchives" style="cursor:pointer; color:darkblue;">
+                            Descargar Archivos
+                        </a>
+                    }
+                }
             </td>
         </tr>
     }
 
 </table>
-<!-- Zona de gráficas -->
+<!--Zona de Gráficas-->
+<div id="voltageChart">
+
+</div>
+<div id="currentChart">
+
+</div>
+<br />
 
 @section Scripts{
     <script>
+        var getUrl = window.location;
+        var baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
         $(document).ready(function () {
-            window.onload = function () {
-                loadBoards(1);
-            }
-            $("#month_scheduledOPT").on('change', function () {
-                $("#board").find('option').remove().end();
-                var id = $("#month_scheduledOPT").val();
-                loadBoards(id);
-            });
-            $("#board").on('change', function () {
-                filterTable();
-            });
-            $(".deleteRutine").click(function () {
-                var id = $(this).attr("id");
-                $(".dltRutine").attr("id", id);
-                $("#deleteRutineModal").modal('show');
-            });
-            $(".downloadRutineArchives").click(function () {
-                var id = $(this).attr("id").substring(2);
-                window.location= '@Url.Action("DownloadAttachment", "Rutine")?id=' + id;
-            });
-            $(".downloadRutineReport").click(function () {
-                var id = $(this).attr("id").substring(2);
-                window.location= '@Url.Action("DetailsAsPDF", "Rutine")?id=' + id;
-            });
-        });
-        function filterTable() {
-            var ms_id = $("#board").val();
-            $("#rutineTable td.ms_id:contains('" + ms_id + "')").parent().show();
-            $("#rutineTable td.ms_id:not(:contains('" + ms_id + "'))").parent().hide();
+    window.onload = function () {
+        loadBoards(1);
+    }
+    $("#month_scheduledOPT").on('change', function () {
+        $("#board").find('option').remove().end();
+        var id = $("#month_scheduledOPT").val();
+        loadBoards(id);
+    });
+    $("#board").on('change', function () {
+        filterTable();
+    });
+    $(".deleteRutine").click(function () {
+        var id = $(this).attr("id");
+        $(".dltRutine").attr("id", id);
+        $("#deleteRutineModal").modal('show');
+    });
+    $(".downloadRutineArchives").click(function () {
+        var id = $(this).attr("id").substring(2);
+        window.location = '@Url.Action("DownloadAttachment", "Rutine")?id=' + id;
+    });
+    $(".downloadRutineReport").click(function () {
+        var id = $(this).attr("id").substring(2);
+        window.location = '@Url.Action("DetailsAsPDF", "Rutine")?id=' + id;
+    });
+});
+function filterTable() {
+    var ms_id = $("#board").val();
+    $("#rutineTable td.ms_id:contains('" + ms_id + "')").parent().show();
+    $("#rutineTable td.ms_id:not(:contains('" + ms_id + "'))").parent().hide();
+    $.ajax({
+        type: "GET",
+        url: baseUrl + "Chart/GetVoltage/" + ms_id,
+        dataType: "HTML",
+        success: function (response) {
+            $("#voltageChart").html(response);
         }
-        function loadBoards(id) {
-            $.ajax({
-                type: "GET",
-                url: "https://localhost:44305/api/ScheduleAPI/1/" + id,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                    $.each(response, function (index) {
-                        $("#board").append(new Option(response[index], response[index]));
-                    });
-                    filterTable();
-                },
-                failure: function (response) {
-                    alert(response.responseText);
-                    alert("Failure");
-                },
-                error: function (response) {
-                    alert(response);
-                    alert("Error");
-                }
-            });
+    });
+    $.ajax({
+        type: "GET",
+        url: baseUrl + "Chart/GetCurrent/" + ms_id,
+        dataType: "HTML",
+        success: function (response) {
+            $("#currentChart").html(response);
         }
+    });
+}
+function loadBoards(id) {
+    $.ajax({
+        type: "GET",
+        url: baseUrl + "api/ScheduleAPI/1/" + id,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            $.each(response, function (index) {
+                $("#board").append(new Option(response[index], response[index]));
+            });
+            filterTable();
+        }
+    });
+}
     </script>
-} 
+}

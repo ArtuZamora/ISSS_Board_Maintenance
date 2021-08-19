@@ -13,12 +13,48 @@ namespace ISSS_Board_Maintenance.Controllers
         // GET: Schedule
         public ActionResult Index()
         {
-            if (user_session.session != null)
+            if (Session["role"] != null)
                 try
                 {
                     using (var db = new BM_010_ISSSEntities())
                     {
                         var list = db.maintenance_schedule.ToList();
+                        List<maintenance_scheduleCE> collection = new List<maintenance_scheduleCE>();
+                        foreach (var item in list)
+                        {
+                            maintenance_scheduleCE obj = new maintenance_scheduleCE();
+                            obj.ms_id = item.ms_id;
+                            obj.type = item.type;
+                            obj.dependency = item.dependency;
+                            obj.building = item.building;
+                            obj.location = item.location;
+                            obj.nomenclature = item.nomenclature;
+                            obj.month_scheduled = item.month_scheduled;
+                            obj.level = item.level;
+                            obj.maintenance_rutine = item.maintenance_rutine;
+                            obj.month_scheduled_name = new DateTime(2000, item.month_scheduled, 1)
+                                .ToString("MMMM", CultureInfo.CreateSpecificCulture("es"));
+                            collection.Add(obj);
+                        }
+                        return View(collection);
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            else
+                return RedirectToAction("Index", "User");
+        }
+
+        public ActionResult IndexEmployee(int id)
+        {
+            if (Session["role"] != null)
+                try
+                {
+                    using (var db = new BM_010_ISSSEntities())
+                    {
+                        var list = db.maintenance_schedule.ToList().Where(ms => ms.month_scheduled == id);
                         List<maintenance_scheduleCE> collection = new List<maintenance_scheduleCE>();
                         foreach (var item in list)
                         {

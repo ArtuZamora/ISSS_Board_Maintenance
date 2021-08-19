@@ -1,0 +1,645 @@
+﻿@model ISSS_Board_Maintenance.Models.maintenance_rutine
+@section Styles{
+    @Styles.Render("~/Content/RutineReport.css")
+}
+
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 15">
+<link rel=File-List href="index_files/filelist.xml">
+
+@using (Html.BeginForm("Create", "Rutine", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.EditorFor(model => model.ms_id, new
+       {
+           htmlAttributes =
+                new
+                {
+                    @class = "createRutine",
+                    @style = "display: none;"
+                }
+       })
+    <a id="backToRutine" style="cursor:pointer; color:darkblue;">
+        Volver
+    </a>
+    <div id="index.html_19497" align=center x:publishsource="Excel">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <table border=0 cellpadding=0 cellspacing=0 width=643 style='border-collapse:
+ collapse;table-layout:fixed;width:483pt'>
+            <col width=97 style='mso-width-source:userset;mso-width-alt:3441;width:73pt'>
+            <col width=101 style='mso-width-source:userset;mso-width-alt:3584;width:76pt'>
+            <col width=61 style='mso-width-source:userset;mso-width-alt:2161;width:46pt'>
+            <col width=46 style='mso-width-source:userset;mso-width-alt:1649;width:35pt'>
+            <col width=65 style='mso-width-source:userset;mso-width-alt:2304;width:49pt'>
+            <col width=70 style='mso-width-source:userset;mso-width-alt:2474;width:52pt'>
+            <col width=78 style='mso-width-source:userset;mso-width-alt:2787;width:59pt'>
+            <col width=58 style='mso-width-source:userset;mso-width-alt:2048;width:43pt'>
+            <col width=67 style='mso-width-source:userset;mso-width-alt:2389;width:50pt'>
+            <tr height=26 style='mso-height-source:userset;height:20.25pt'>
+                <td colspan=9 height=26 class=xl7219497 width=643 style='height:20.25pt;
+  width:483pt'>
+                    <a name="RANGE!A1:I37">INSTITUTO SALVADOREÑO DEL SEGURO SOCIAL</a>
+                </td>
+            </tr>
+            <tr height=24 style='mso-height-source:userset;height:18.0pt'>
+                <td colspan=9 height=24 width=643 style='height:18.0pt;width:483pt'
+                    align=left valign=top>
+                    <![if !vml]><span style='mso-ignore:vglayout;
+  position:absolute;z-index:1;margin-left:4px;margin-top:10px;width:95px;
+  height:99px'>
+                        <img width=95 height=99
+                             src="~/images/Logo_ISSS.png"
+                             alt="~/images/Logo_ISSS.png"
+                             v:shapes="Imagen_x0020_2">
+                    </span><![endif]><span style='mso-ignore:vglayout2'>
+                        <table cellpadding=0 cellspacing=0>
+                            <tr>
+                                <td colspan=9 height=24 class=xl7319497 width=643 style='height:18.0pt;
+    width:483pt'>
+                                    DIVISIÓN DE APOYO Y MANTENIMIENTO
+                                </td>
+                            </tr>
+                        </table>
+                    </span>
+                </td>
+            </tr>
+            <tr height=24 style='mso-height-source:userset;height:18.0pt'>
+                <td colspan=9 height=24 class=xl7319497 style='height:18.0pt'>
+                    DEPARTAMENTO DE
+                    OPERACIÓN Y MANTENIMIENTO
+                </td>
+            </tr>
+            <tr height=24 style='mso-height-source:userset;height:18.0pt'>
+                <td colspan=9 height=24 class=xl7319497 style='height:18.0pt'>
+                    SECCIÓN DE
+                    MANTENIMIENTO METROPOLITANO
+                </td>
+            </tr>
+            <tr height=20 style='mso-height-source:userset;height:15.0pt'>
+                <td colspan=9 height=20 class=xl7119497 style='height:15.0pt'>
+                    ÁREA DE
+                    ELECTROMECANICA
+                </td>
+            </tr>
+            <tr height=22 style='mso-height-source:userset;height:17.25pt'>
+                <td colspan=9 height=22 class=xl7119497 style='height:17.25pt'>
+                    RUTINA DE
+                    MANTENIMIENTO PREVENTIVO
+                </td>
+            </tr>
+            <tr height=22 style='mso-height-source:userset;height:17.25pt'>
+                <td colspan=9 height=22 class=xl7119497 style='height:17.25pt'>
+                    TABLEROS
+                    ELÉCTRICOS Y TRANSFORMADORES SECOS
+                </td>
+            </tr>
+            <tr height=37 style='mso-height-source:userset;height:27.75pt'>
+                <td colspan=2 height=37 class=xl6919497 style='height:27.75pt'>
+                    CÓDIGO DE
+                    IDENTIFICACIÓN
+                </td>
+                <td colspan=3 class="xl7419497 createRutine" id="ms_idText">
+                    &nbsp;
+                </td>
+                <td class=xl1519497></td>
+                <td class=xl6819497>FECHA:</td>
+                <td colspan=2 class=xl7419497>
+                    &nbsp;@Html.EditorFor(model => model.date, new
+            {
+                  htmlAttributes = new
+                  {
+                      @class = "form-control",
+                      @type = "date"
+                  }
+            })
+                </td>
+            </tr>
+            <tr height=34 style='mso-height-source:userset;height:25.5pt'>
+                <td height=34 class="xl6919497" style='height:25.5pt'>DESCRIPCIÓN</td>
+                <td colspan=8 class="xl7419497 createRutine" id="description">&nbsp;</td>
+            </tr>
+            <tr height=28 style='mso-height-source:userset;height:21.0pt'>
+                <td height=28 class="xl6919497" style='height:21.0pt'>UBICACIÓN</td>
+                <td colspan=8 class="xl7519497 createRutine" id="location">&nbsp;</td>
+            </tr>
+            <tr height=17 style='mso-height-source:userset;height:12.75pt'>
+                <td height=17 class=xl1519497 style='height:12.75pt'></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+            </tr>
+            <tr height=26 style='mso-height-source:userset;height:19.5pt'>
+                <td colspan=2 height=26 class=xl6919497 style='height:19.5pt'>
+                    CANTIDAD DE
+                    ESPACIOS
+                </td>
+                <td colspan=1 class=xl7419497>
+                    &nbsp;
+                    @Html.EditorFor(model => model.slots_quantity, new
+                       {
+                           htmlAttributes =
+                                new
+                                {
+                                    @class = "form-control",
+                                    @type = "number",
+                                    @min = "0",
+                                    @value = "0",
+
+                                }
+                       })
+                    @Html.ValidationMessageFor(model => model.slots_quantity, "", new { @class = "text-danger" })
+                </td>
+                <td colspan=3 class=xl6819497>ESPACIOS DISPONIBLES</td>
+                <td class=xl6819497></td>
+                <td colspan=1 class=xl7419497>
+                    &nbsp;
+                    @Html.EditorFor(model => model.slots_available, new
+                       {
+                           htmlAttributes =
+                                new
+                                {
+                                    @class = "form-control",
+                                    @type = "number",
+                                    @min = "0",
+                                    @value = "0"
+                                }
+                       })
+                    @Html.ValidationMessageFor(model => model.slots_available, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+            <tr height=14 style='mso-height-source:userset;height:11.25pt'>
+                <td height=14 class=xl1519497 style='height:11.25pt'></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+            </tr>
+            <tr height=26 style='mso-height-source:userset;height:19.5pt'>
+                <td colspan=4 height=26 class=xl6919497 style='height:19.5pt'>
+                    CAPACIDAD DE
+                    TRANSFORMADOR
+                </td>
+                <td colspan=4 class=xl7419497>
+                    @Html.EditorFor(model => model.transf_capacity, new
+                       {
+                           htmlAttributes =
+                                        new
+                                        {
+                                            @class = "form-control",
+                                            @style = "width:270px;"
+                                        }
+                       })
+                    @Html.ValidationMessageFor(model => model.transf_capacity, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+            <tr height=18 style='mso-height-source:userset;height:13.5pt'>
+                <td height=18 class=xl1519497 style='height:13.5pt'></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+            </tr>
+            <tr height=26 style='mso-height-source:userset;height:19.5pt'>
+                <td colspan=2 rowspan=2 height=52 class=xl8019497 width=198 style='height:
+  39.0pt;width:149pt'>
+                    POSEE PROTECCIÓN GENERAL
+                </td>
+                <td style='text-align:center;'>
+                    <input type="checkbox" class="form-check-input" id="general_protection" name="general_protection" style="width: 30px; height: 30px; margin-left: 30px; position: inherit;" />
+                    @Html.ValidationMessageFor(model => model.general_protection, "", new { @class = "text-danger" })
+                </td>
+                <td class=xl1519497></td>
+                <td colspan=3 class=xl6919497>CAPACIDAD DE PROTECCIÓN</td>
+                <td colspan=2 class=xl7919497>
+                    @Html.EditorFor(model => model.protection_capacity, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.protection_capacity, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+            <tr height=26 style='mso-height-source: userset; height: 19.5pt; border-left: none;'>
+                <td height=26 class=xl1519497 style='height: 19.5pt; border-left: none;'></td>
+                <td class=xl1519497 style="border-left: none;"></td>
+                <td class=xl1519497 style="border-left: none;"></td>
+                <td class=xl1519497 style="border-left: none;"></td>
+                <td class=xl1519497 style="border-left: none;"></td>
+                <td class=xl1519497 style="border-left: none;"></td>
+                <td class=xl1519497 style="border-left: none;"></td>
+            </tr>
+            <tr height=26 style='mso-height-source:userset;height:19.5pt'>
+                <td colspan=2 height=26 class=xl8119497 style='height:19.5pt'>
+                    TERMOGRAFÍA INICIAL
+                </td>
+                <td style='border-left:none;text-align:center;'>
+                    <input type="checkbox" class="form-check-input" id="initial_termography" name="initial_termography" style="width: 30px; height: 30px; margin-left: 30px; position: inherit;" />
+                    @Html.ValidationMessageFor(model => model.initial_termography, "", new { @class = "text-danger" })
+                </td>
+                <td class=xl1519497></td>
+                <td colspan=2 class=xl7819497>
+                    VOLTAJE<span style='mso-spacerun:yes'>
+                    </span>L1 - L2
+                </td>
+                <td colspan=2 class=xl7919497>
+                    @Html.EditorFor(model => model.voltage_01, new
+                       {
+                           htmlAttributes = new
+                           {
+                               @class = "form-control",
+                               @type = "number",
+                               @min = "0",
+                               @step = "0.001",
+                               @style = "width : 130px;"
+                           }
+                       })
+                    @Html.ValidationMessageFor(model => model.voltage_01, "", new { @class = "text-danger" })
+                </td>
+                <td style="font-size:21px">
+                    &nbsp;&nbsp;&nbsp;V
+                </td>
+            </tr>
+            <tr height=26 style='mso-height-source:userset;height:19.5pt'>
+                <td height=26 class=xl1519497 style='height:19.5pt'></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td colspan=3 class=xl7619497>&nbsp;</td>
+            </tr>
+            <tr height=26 style='mso-height-source:userset;height:19.5pt'>
+                <td colspan=2 height=26 class=xl8119497 style='height:19.5pt'>
+                    LIMPIEZA GENERAL
+                </td>
+                <td style='border-left:none;text-align:center;'>
+                    <input type="checkbox" class="form-check-input" id="general_cleaning" name="general_cleaning" style="width: 30px; height: 30px; margin-left: 30px; position: inherit;" />
+                    @Html.ValidationMessageFor(model => model.general_cleaning, "", new { @class = "text-danger" })
+                </td>
+                <td class=xl1519497></td>
+                <td colspan=2 class=xl7819497>
+                    VOLTAJE<span style='mso-spacerun:yes'>
+                    </span>L1 - L3
+                </td>
+                <td colspan=2 class=xl7919497>
+                    @Html.EditorFor(model => model.voltage_02, new
+                       {
+                           htmlAttributes = new
+                           {
+                               @class = "form-control",
+                               @type = "number",
+                               @min = "0",
+                               @step = "0.001",
+                               @style = "width : 130px;"
+                           }
+                       })
+                    @Html.ValidationMessageFor(model => model.voltage_02, "", new { @class = "text-danger" })
+                </td>
+                <td style="font-size:21px">
+                    &nbsp;&nbsp;&nbsp;V
+                </td>
+            </tr>
+            <tr height=26 style='mso-height-source:userset;height:19.5pt'>
+                <td height=26 class=xl1519497 style='height:19.5pt'></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td colspan=3 class=xl7619497>&nbsp;</td>
+            </tr>
+            <tr height=26 style='mso-height-source:userset;height:19.5pt'>
+                <td colspan=2 height=26 class=xl8119497 style='height:19.5pt'>
+                    ORDEN DE CABLES
+                </td>
+                <td style='border-left:none;text-align:center;'>
+                    <input type="checkbox" class="form-check-input" id="cable_managment" name="cable_managment" style="width: 30px; height: 30px; margin-left: 30px; position: inherit;" />
+                    @Html.ValidationMessageFor(model => model.cable_managment, "", new { @class = "text-danger" })
+                </td>
+                <td class=xl1519497></td>
+                <td colspan=2 class=xl7819497>
+                    VOLTAJE<span style='mso-spacerun:yes'>
+                    </span>L2 - L3
+                </td>
+                <td colspan=2 class=xl7919497>
+                    @Html.EditorFor(model => model.voltage_03, new
+                       {
+                           htmlAttributes = new
+                           {
+                               @class = "form-control",
+                               @type = "number",
+                               @min = "0",
+                               @step = "0.001",
+                               @style = "width : 130px;"
+                           }
+                       })
+                    @Html.ValidationMessageFor(model => model.voltage_03, "", new { @class = "text-danger" })
+                </td>
+                <td style="font-size:21px">
+                    &nbsp;&nbsp;&nbsp;V
+                </td>
+            </tr>
+            <tr height=26 style='mso-height-source:userset;height:19.5pt'>
+                <td height=26 class=xl1519497 style='height:19.5pt'></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td colspan=3 class=xl7619497>&nbsp;</td>
+            </tr>
+            <tr height=26 style='mso-height-source:userset;height:19.5pt'>
+                <td colspan=2 rowspan=2 height=52 class=xl8019497 width=198 style='height:
+  39.0pt;width:149pt;border:none;'>
+                    REAPRETÉ DE TORNILLOS Y TERMINALES
+                </td>
+                <td style='text-align:center;'>
+                    <input type="checkbox" class="form-check-input" id="retighten" name="retighten" style="width: 30px; height: 30px; margin-left: 30px; position: inherit;" />
+                    @Html.ValidationMessageFor(model => model.retighten, "", new { @class = "text-danger" })
+                </td>
+                <td class=xl1519497></td>
+                <td colspan=2 class=xl7819497>
+                    CORRIENTE<span style='mso-spacerun:yes'>
+                    </span>L1
+                </td>
+                <td colspan=2 class=xl7919497>
+                    @Html.EditorFor(model => model.current_01, new
+                       {
+                           htmlAttributes = new
+                           {
+                               @class = "form-control",
+                               @type = "number",
+                               @min = "0",
+                               @step = "0.001",
+                               @style = "width : 130px;"
+                           }
+                       })
+                    @Html.ValidationMessageFor(model => model.current_01, "", new { @class = "text-danger" })
+                </td>
+                <td style="font-size:21px">
+                    &nbsp;&nbsp;&nbsp;A
+                </td>
+            </tr>
+            <tr height=26 style='mso-height-source:userset;height:19.5pt'>
+                <td height=26 class=xl1519497 style='height:19.5pt'></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td colspan=3 class=xl7619497>&nbsp;</td>
+            </tr>
+            <tr height=26 style='mso-height-source:userset;height:19.5pt'>
+                <td colspan=2 rowspan=2 height=52 class=xl8019497 width=198 style='height:
+  39.0pt;width:149pt'>
+                    VERIFICAR ROTULACIÓN SEGÚN PROGRAMA
+                </td>
+                <td style='text-align:center;'>
+                    <input type="checkbox" class="form-check-input" id="rotulation" name="rotulation" style="width: 30px; height: 30px; margin-left: 30px; position: inherit;"/>
+                    @Html.ValidationMessageFor(model => model.rotulation, "", new { @class = "text-danger" })
+                </td>
+                <td class=xl1519497 style='border-left:none;'></td>
+                <td colspan=2 class=xl7819497>
+                    CORRIENTE<span style='mso-spacerun:yes'>
+                    </span>L2
+                </td>
+                <td colspan=2 class=xl7919497>
+                    @Html.EditorFor(model => model.current_02, new
+                       {
+                           htmlAttributes = new
+                           {
+                               @class = "form-control",
+                               @type = "number",
+                               @min = "0",
+                               @step = "0.001",
+                               @style = "width : 130px;"
+                           }
+                       })
+                    @Html.ValidationMessageFor(model => model.current_02, "", new { @class = "text-danger" })
+                </td>
+                <td style="font-size:21px">
+                    &nbsp;&nbsp;&nbsp;A
+                </td>
+            </tr>
+            <tr height=26 style='mso-height-source:userset;height:19.5pt'>
+                <td height=26 class=xl1519497 style='height:19.5pt;border-left:none'></td>
+                <td class=xl1519497 style='border-left:none'></td>
+                <td class=xl1519497 style='border-left:none'></td>
+                <td class=xl1519497 style='border-left:none'></td>
+                <td colspan=3 class=xl7619497>&nbsp;</td>
+            </tr>
+            <tr height=26 style='mso-height-source:userset;height:19.5pt'>
+                <td colspan=2 height=26 class=xl8119497 style='height:19.5pt'>
+                    TERMOGRAFÍA FINAL
+                </td>
+                <td style='border-left:none;text-align:center;'>
+                    <input type="checkbox" class="form-check-input" id="final_termography" name="final_termography" style="width: 30px; height: 30px; margin-left: 30px; position: inherit;" />
+                    @Html.ValidationMessageFor(model => model.final_termography, "", new { @class = "text-danger" })
+                </td>
+                <td class=xl1519497></td>
+                <td colspan=2 class=xl7819497>
+                    CORRIENTE<span style='mso-spacerun:yes'>
+                    </span>L3
+                </td>
+                <td colspan=2 class=xl7919497>
+                    @Html.EditorFor(model => model.current_03, new
+                       {
+                           htmlAttributes = new
+                           {
+                               @class = "form-control",
+                               @type = "number",
+                               @min = "0",
+                               @step = "0.001",
+                               @style = "width : 130px;"
+                           }
+                       })
+                    @Html.ValidationMessageFor(model => model.current_03, "", new { @class = "text-danger" })
+                </td>
+                <td style="font-size:21px">
+                    &nbsp;&nbsp;&nbsp;A
+                </td>
+            </tr>
+            <tr height=26 style='mso-height-source:userset;height:19.5pt'>
+                <td height=26 class=xl6719497 style='height:19.5pt'></td>
+                <td class=xl6719497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl6519497></td>
+                <td class=xl6519497></td>
+                <td colspan=3 class=xl7619497>&nbsp;</td>
+            </tr>
+            <tr height=26 style='mso-height-source:userset;height:19.5pt'>
+                <td colspan=2 rowspan=2 height=64 class=xl8019497 width=198 style='height:
+  48.75pt;width:149pt'>
+                    COLOCACIÓN DE TAPADERAS
+                </td>
+                <td style='text-align:center;'>
+                    <input type="checkbox" class="form-check-input" id="cover_placement" name="cover_placement" style="width: 30px; height: 30px; margin-left: 30px; position: inherit;" />
+                    @Html.ValidationMessageFor(model => model.cover_placement, "", new { @class = "text-danger" })
+                </td>
+                <td class=xl1519497></td>
+                <td colspan=2 class=xl7819497>
+                    CORRIENTE<span style='mso-spacerun:yes'>
+                    </span>N
+                </td>
+                <td colspan=2 class=xl7919497>
+                    @Html.EditorFor(model => model.current_n, new
+                       {
+                           htmlAttributes = new
+                           {
+                               @class = "form-control",
+                               @type = "number",
+                               @min = "0",
+                               @step = "0.001",
+                               @style = "width : 130px;"
+                           }
+                       })
+                    @Html.ValidationMessageFor(model => model.current_n, "", new { @class = "text-danger" })
+                </td>
+                <td style="font-size:21px">
+                    &nbsp;&nbsp;&nbsp;A
+                </td>
+            </tr>
+            <tr height=38 style='mso-height-source:userset;height:29.25pt'>
+                <td height=38 class=xl1519497 style='height:29.25pt'></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td class=xl1519497></td>
+                <td colspan=3 class=xl7619497>&nbsp;</td>
+            </tr>
+            <tr height=26 style='mso-height-source:userset;height:19.5pt'>
+                <td colspan=9 rowspan=4 height=110 class=xl8319497 style='border-right:1.0pt solid black;
+  border-bottom:1.0pt solid black;height:82.5pt'>
+                    <p>
+                        OBSERVACIONES:
+                    </p>
+                    @Html.TextAreaFor(model => model.observations, new { @style = "width:640px; max-width:100%; resize: none;", @rows = "5" })
+                    @Html.ValidationMessageFor(model => model.observations, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+            <tr height=26 style='mso-height-source:userset;height:19.5pt'>
+            </tr>
+            <tr height=26 style='mso-height-source:userset;height:19.5pt'>
+            </tr>
+            <tr height=32 style='mso-height-source:userset;height:24.0pt'>
+            </tr>
+            <tr height=50 style='mso-height-source:userset;height:38.25pt'>
+                <td colspan=2 height=50 class=xl6919497 style='height:38.25pt'>
+                    RESPONSABLE DE
+                    RUTINA
+                </td>
+                <td colspan=4 class=xl7419497 id="FullNameCreateRutine">&nbsp;</td>
+                <td class=xl7019497>FIRMA</td>
+                <td colspan=2 class=xl7919497>&nbsp;<img id="SignatureCreateRutine" src="" height="75" width="225"></td>
+            </tr>
+            <![if supportMisalignedColumns]>
+            <tr height=0 style='display:none'>
+                <td width=97 style='width:73pt'></td>
+                <td width=101 style='width:76pt'></td>
+                <td width=61 style='width:46pt'></td>
+                <td width=46 style='width:35pt'></td>
+                <td width=65 style='width:49pt'></td>
+                <td width=70 style='width:52pt'></td>
+                <td width=78 style='width:59pt'></td>
+                <td width=58 style='width:43pt'></td>
+                <td width=67 style='width:50pt'></td>
+            </tr>
+            <![endif]>
+            <tr height=26 style='mso-height-source:userset;height:19.5pt'>
+                <td height=26 style='height:19.5pt'></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr height=26 style='mso-height-source:userset;height:19.5pt'>
+                <td height=26 style='height:19.5pt'></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <div class="form-group">
+                        <div class="col-md-offset-3 col-md-10">
+                            <input type="submit" value="Agregar" class="btn btn-info btn-lg" />
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td></td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+    </div>
+    <br />
+}
+
+@section Scripts{
+    @Scripts.Render("https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js")
+    <script>
+        $(document).ready(function () {
+            $("#date").attr("max", moment().format().substring(0, 10));
+            $("#date").attr("value", moment().format().substring(0, 10));
+            $("#slots_quantity").val("0");
+            $("#slots_available").val("0");
+            $("#voltage_01").val("0");
+            $("#voltage_02").val("0");
+            $("#voltage_03").val("0");
+            $("#current_01").val("0");
+            $("#current_02").val("0");
+            $("#current_03").val("0");
+            $("#current_n").val("0");
+
+            $("#slots_quantity").focusout(function () {
+                SetZero(this);
+            });
+            $("#slots_available").focusout(function () {
+                SetZero(this);
+            });
+            $("#voltage_01").focusout(function () {
+                SetZero(this);
+            });
+            $("#voltage_02").focusout(function () {
+                SetZero(this);
+            });
+            $("#voltage_03").focusout(function () {
+                SetZero(this);
+            });
+            $("#current_01").focusout(function () {
+                SetZero(this);
+            });
+            $("#current_02").focusout(function () {
+                SetZero(this);
+            });
+            $("#current_03").focusout(function () {
+                SetZero(this);
+            });
+            $("#current_n").focusout(function () {
+                SetZero(this);
+            });
+            $("#backToRutine").click(function () {
+                $("#createRutineDiv").hide();
+                $("#rutineDiv").show();
+            });
+        });
+        function SetZero(element) {
+            if ($(element).val() == "") {
+                $(element).val("0");
+            }
+        }
+        function pad(num, size) {
+            num = num.toString();
+            while (num.length < size) num = "0" + num;
+            return num;
+        }
+    </script>
+}

@@ -16,9 +16,7 @@ namespace ISSS_Board_Maintenance.Models
     {
         public int tf_id { get; set; }
         public int mr_id { get; set; }
-        public byte[] termography_file { get; set; }
-        public string termography_file_name { get; set; }
-        public string termography_file_extension { get; set; }
+        public string termography_file { get; set; }
     
         public virtual maintenance_rutine maintenance_rutine { get; set; }
     }

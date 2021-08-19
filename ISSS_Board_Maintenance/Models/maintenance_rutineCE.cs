@@ -8,6 +8,7 @@ namespace ISSS_Board_Maintenance.Models
     public class maintenance_rutineCE : maintenance_rutine
     {
         public string employee_user_full_name { get; set; }
+        public bool hasFiles { get; set; }
         public maintenance_rutineCE()
         {
 

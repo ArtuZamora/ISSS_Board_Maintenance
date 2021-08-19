@@ -14,14 +14,14 @@ namespace ISSS_Board_Maintenance.Controllers
         // GET: User
         public ActionResult Index()
         {
-            if (user_session.session != null)
+            if (Session["role"] != null)
                 return verifySession();
             else
                 return View();
         }
         public ActionResult List()
         {
-            if (user_session.session != null)
+            if (Session["role"] != null)
                 try
                 {
                     using (var db = new BM_010_ISSSEntities())
@@ -38,7 +38,7 @@ namespace ISSS_Board_Maintenance.Controllers
         }
         public ActionResult Login()
         {
-            if (user_session.session != null)
+            if (Session["role"] != null)
                 return verifySession();
             else
                 return View();
@@ -52,13 +52,19 @@ namespace ISSS_Board_Maintenance.Controllers
                 {
                     employee_user userF =
                         db.employee_user
-                        .Where(u => u.username == user.username && u.password == user.password)
+                        .Where(u => u.username == user.username)
                         .FirstOrDefault();
                     if (userF != default)
+                        if (userF.password != user.password)
+                            userF = default;
+                    if (userF != default)
                     {
-                        if((bool)userF.verification)
+                        if ((bool)userF.verification)
                         {
-                            user_session.session = userF;
+                            Session["id"] = userF.employee_id;
+                            Session["role"] = userF.role;
+                            Session["fullname"] = userF.GetFullName();
+                            Session["signature"] = userF.signature;
                             return verifySession();
                         }
                         else
@@ -79,7 +85,7 @@ namespace ISSS_Board_Maintenance.Controllers
         }
         public ActionResult SignIn()
         {
-            if (user_session.session != null)
+            if (Session["role"] != null)
                 return verifySession();
             else
                 return View();
@@ -97,17 +103,23 @@ namespace ISSS_Board_Maintenance.Controllers
                 employee_user user1 = null;
                 using (var db = new BM_010_ISSSEntities())
                     user1 = db.employee_user.Where(u => u.username == user.username).FirstOrDefault();
-                if(user1 != default)
+                if (user1 != default)
                 {
                     TempData["userFound"] = "Nombre de usuario ya existente";
                 }
                 else
                 {
-                    user.signature = ConvertToBytes(file);
-                    if (user.signature.Length > 2097152)
+                    if (ConvertToBytes(file).Length > 2097152)
                         TempData["maxSizeReached"] = "Tamaño máximo";
                     else
                     {
+                        string path = Server.MapPath("~/Signatures/");
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+                        file.SaveAs(path + Path.GetFileName(file.FileName));
+                        user.signature = path + Path.GetFileName(file.FileName);
                         user.role = "employee";
                         user.verification = false;
                         using (var db = new BM_010_ISSSEntities())
@@ -122,8 +134,8 @@ namespace ISSS_Board_Maintenance.Controllers
         }
         public ActionResult HomeAdmin()
         {
-            if (user_session.session != null)
-                if (user_session.session.role.Trim() == "employee")
+            if (Session["role"] != null)
+                if (Session["role"].ToString().Trim() == "employee")
                     return View("Home", "User");
                 else
                     return View();
@@ -132,8 +144,8 @@ namespace ISSS_Board_Maintenance.Controllers
         }
         public ActionResult Home()
         {
-            if (user_session.session != null)
-                if (user_session.session.role.Trim() == "admin")
+            if (Session["role"] != null)
+                if (Session["role"].ToString().Trim() == "admin")
                     return View("HomeAdmin", "User");
                 else
                     return View();
@@ -142,8 +154,8 @@ namespace ISSS_Board_Maintenance.Controllers
         }
         private ActionResult verifySession()
         {
-            if (user_session.session != null)
-                if (user_session.session.role.Trim() == "admin")
+            if (Session["role"] != null)
+                if (Session["role"].ToString().Trim() == "admin")
                     return RedirectToAction("HomeAdmin", "User");
                 else
                     return RedirectToAction("Home", "User");
@@ -152,7 +164,10 @@ namespace ISSS_Board_Maintenance.Controllers
         }
         public ActionResult logOut()
         {
-            user_session.session = null;
+            Session["id"] = null;
+            Session["role"] = null;
+            Session["fullname"] = null;
+            Session["signature"] = null;
             return RedirectToAction("Index", "User");
         }
         public ActionResult SuscribeUser(int id)
@@ -182,6 +197,8 @@ namespace ISSS_Board_Maintenance.Controllers
             using (var db = new BM_010_ISSSEntities())
             {
                 employee_user user = db.employee_user.Find(id);
+                if (string.IsNullOrEmpty(user.signature))
+                    return File(new byte[0], "image/png");
                 return File(user.signature, "image/png");
             }
         }

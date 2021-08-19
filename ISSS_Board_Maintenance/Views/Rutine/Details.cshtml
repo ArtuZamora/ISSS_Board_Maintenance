@@ -380,8 +380,10 @@
         <tr height=26 style='mso-height-source:userset;height:19.5pt'>
             <td colspan=9 rowspan=4 height=110 class=xl8319497 style='border-right:1.0pt solid black;
   border-bottom:1.0pt solid black;height:82.5pt'>
-                OBSERVACIONES: 
-                @Html.DisplayFor(model => model.observations)
+                <p>
+                    OBSERVACIONES:
+                </p>
+                @Html.TextAreaFor(model => model.observations, new { @style = "width:640px; max-width:100%; resize: none;", @rows = "5" })
             </td>
         </tr>
         <tr height=26 style='mso-height-source:userset;height:19.5pt'>

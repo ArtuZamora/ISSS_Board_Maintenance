@@ -6,11 +6,11 @@
     <title>@ViewBag.Title - Mantenimiento HG</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
 </head>
 <body style="padding-top:unset; padding-bottom:unset;">
     @RenderBody()
 
-    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
     @RenderSection("styles", required: false)

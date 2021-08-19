@@ -1,0 +1,106 @@
+﻿@model IEnumerable<ISSS_Board_Maintenance.Models.maintenance_scheduleCE>
+
+@Styles.Render("~/Content/bootstrap.min.css")
+
+<table class="table">
+    <tr>
+        <th>
+            Código
+        </th>
+        <th>
+            Tipo
+        </th>
+        <th>
+            Dependencia
+        </th>
+        <th>
+            Edificio
+        </th>
+        <th>
+            Nivel
+        </th>
+        <th>
+            Posición
+        </th>
+        <th>
+            Nomenclatura
+        </th>
+        <th>
+            Mes
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ms_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dependency)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.building)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.level)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nomenclature)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.month_scheduled_name)
+            </td>
+            <td>
+                <a id="R-@item.ms_id" class="showRutines" style="cursor:pointer; color:darkblue;">
+                    Ver Rutinas
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section Scripts {
+    <script>
+        var getUrl = window.location;
+        var baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
+        $(document).ready(function () {
+            $(".showRutines").click(function () {
+                var id = $(this).attr("id").substring(2);
+                $("#contentDiv").hide();
+                $("#rutineDiv").empty();
+                $("#rutineDiv").addClass("loader");
+                $.ajax({
+                    type: "GET",
+                    url: baseUrl + "Rutine/IndexEmployee/" + id,
+                    dataType: "HTML",
+                    success: function (response) {
+                        $("#rutineDiv").html(response);
+                        $("#rutineDiv").show();
+                        $("#rutineDiv").removeClass("loader");
+                    }
+                });
+                $.ajax({
+                    type: "GET",
+                    url: baseUrl + "api/ScheduleAPI/" + id,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        $(".createRutine#ms_idText").text(response.ms_id);
+                        $(".createRutine#ms_id").val(response.ms_id);
+                        $(".createRutine#description").text(response.type);
+                        $(".createRutine#location").text(response.location);
+                    }
+                });
+            });
+        });
+    </script>
+}

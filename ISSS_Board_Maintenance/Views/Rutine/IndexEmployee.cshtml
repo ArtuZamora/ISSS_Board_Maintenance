@@ -1,0 +1,111 @@
+﻿@model IEnumerable<ISSS_Board_Maintenance.Models.maintenance_rutineCE>
+
+<a id="addRutine" style="cursor:pointer; color:darkblue;">
+    Agregar Rutina
+</a>
+<table class="table" id="rutineTable">
+    <tr>
+        <th>
+            Código de rutina
+        </th>
+        <th>
+            Código de tablero
+        </th>
+        <th>
+            Fecha de realización
+        </th>
+        <th>
+            Subido por
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.mr_id)
+            </td>
+            <td class="ms_id">
+                @Html.DisplayFor(modelItem => item.ms_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.employee_user_full_name)
+            </td>
+            <td>
+                <a id="R-@item.mr_id" class="downloadRutineReport" style="cursor:pointer; color:darkblue;">
+                    Descargar Reporte
+                </a>
+                @{
+                    if (item.hasFiles)
+                    {
+                        <a>|</a>
+                        <a id="D-@item.mr_id" class="downloadRutineArchives" style="cursor:pointer; color:darkblue;">
+                            Descargar Archivos
+                        </a>
+                    }
+                    else
+                    {
+                        <a>|</a>
+                        <a id="A-@item.mr_id" class="uploadRutineArchives" style="cursor:pointer; color:darkblue;">
+                            Agregar Archivos
+                        </a>
+                    }
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+<!--Zona de Gráficas-->
+@{ Html.RenderAction("GetVoltage", "Chart", new { id = Model.ToList().Count() == 0 ? "null" : Model.ToList()[0].ms_id }); }
+@{ Html.RenderAction("GetCurrent", "Chart", new { id = Model.ToList().Count() == 0 ? "null" : Model.ToList()[0].ms_id }); }
+<br />
+
+<a id="backToSchedule" style="cursor:pointer; color:darkblue;">
+    Volver
+</a>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(".downloadRutineArchives").click(function () {
+                var id = $(this).attr("id").substring(2);
+                window.location= '@Url.Action("DownloadAttachment", "Rutine")?id=' + id;
+            });
+            $(".downloadRutineReport").click(function () {
+                var id = $(this).attr("id").substring(2);
+                window.location= '@Url.Action("DetailsAsPDF", "Rutine")?id=' + id;
+            });
+            $(".uploadRutineArchives").click(function () {
+                var id = $(this).attr("id").substring(2);
+                $("#modal-body-content").empty();
+                $("#modal-body-content").addClass("loader");
+                $.ajax({
+                    type: "GET",
+                    url: baseUrl + "Rutine/UploadTermographyFiles",
+                    dataType: "HTML",
+                    success: function (response) {
+                        $("#modal-body-content").html(response);
+                        $("#id").val(id);
+                        $("#modal-body-content").removeClass("loader");
+                    }
+                });
+                $("#uploadFilesModal").modal('show');
+            });
+            $("#backToSchedule").click(function () {
+                $("#rutineDiv").hide();
+                $("#contentDiv").show();
+                $("#linechartCurrent_container").remove();
+                $("#linechartVoltage_container").remove();
+            });
+            $("#addRutine").click(function () {
+                $("#rutineDiv").hide();
+                $("#createRutineDiv").show();
+            });
+        });
+    </script>
+}
