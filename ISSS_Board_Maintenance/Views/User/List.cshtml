@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ISSS_Board_Maintenance.Models.employee_user>
+﻿@model IEnumerable<ISSS_Board_Maintenance.Models.employee_userCE>
 <table class="table">
     <tr>
         <th>
@@ -12,6 +12,9 @@
         </th>
         <th>
             Firma
+        </th>
+        <th>
+            Dependencia
         </th>
         <th></th>
     </tr>
@@ -32,10 +35,44 @@
                 <img src="@Url.Action("GetSignature", "User", new { id = item.employee_id })" height="75" width="225">
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.dependecy_name)
+            </td>
+            <td>
                 @Html.ActionLink("Dar de alta", "SuscribeUser", new { id = item.employee_id }) |
-                @Html.ActionLink("Dar de baja", "UnsuscribeUser", new { id = item.employee_id })
+                @Html.ActionLink("Dar de baja", "UnsuscribeUser", new { id = item.employee_id }) |
+                <a id="EU-@item.employee_id" class="editUserF" style="cursor:pointer; color:darkblue;">
+                    Editar
+                </a>
             </td>
         </tr>
     }
 
 </table>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            var getUrl = window.location;
+            var baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
+            $(".login100-form-title").hide();
+            $(".editUserF").click(function () {
+                var id = $(this).attr("id").substring(3);
+                $.ajax({
+                    type: "GET",
+                    url: baseUrl + "api/UserAPI/" + id,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        $(".editUser#employee_id").val(response.employee_id);
+                        $(".editUser#username").val(response.username);
+                        $(".editUser#name").val(response.name);
+                        $(".editUser#last_name").val(response.last_name);
+                        $(".editUser#password").val(response.password);
+                        $(".editUser#dependency_id").val(response.dependency_id);
+                    }
+                });
+                $("#editUserModal").modal('show');
+            });
+        });
+    </script>
+}

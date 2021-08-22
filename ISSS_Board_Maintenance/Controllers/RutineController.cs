@@ -81,7 +81,11 @@ namespace ISSS_Board_Maintenance.Controllers
         {
             using (var db = new BM_010_ISSSEntities())
             {
-                return View(new maintenance_rutineCE(db.maintenance_rutine.Find(id)));
+                maintenance_rutineCE rutineCE = new maintenance_rutineCE(db.maintenance_rutine.Find(id));
+                maintenance_schedule schedule = db.maintenance_schedule.Find(rutineCE.ms_id);
+                rutineCE.description = schedule.type;
+                rutineCE.location = schedule.location;
+                return View(rutineCE);
             }
         }
 
@@ -104,8 +108,6 @@ namespace ISSS_Board_Maintenance.Controllers
             using (var db = new BM_010_ISSSEntities())
             {
                 maintenance_schedule ms = db.maintenance_schedule.Find(rutine.ms_id);
-                rutine.description = ms.type;
-                rutine.location = ms.location;
                 rutine.employee_id = Convert.ToInt32(Session["id"]);
                 rutine.date = rutine.date == null ? DateTime.Now : rutine.date;
                 DateTime dt1 = ((DateTime)rutine.date).AddHours(DateTime.Now.Hour);

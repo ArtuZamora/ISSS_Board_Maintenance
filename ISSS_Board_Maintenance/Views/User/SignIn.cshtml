@@ -91,6 +91,15 @@
         </div>
 
         <div class="form-group">
+            <p>Dependencia</p>
+            <div class="wrap-input100 validate-input">
+                <select id="dependency_id" name="dependency_id" class="input100" style="height:40px;">
+                </select>
+                <span class="focus-input100"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
             <p>Firma</p><br />
             @Html.Editor("signatureData", new
             {
@@ -153,6 +162,8 @@
 @section Scripts{
     @Scripts.Render("~/Scripts/login_signin.js")
     <script>
+        var getUrl = window.location;
+        var baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
         $(document).ready(function () {
             $("#registerBtn").hover(function () {
                 $(this).css("background-color", "green");
@@ -160,6 +171,17 @@
                 function () {
                     $(this).css("background-color", "forestgreen");
                 });
+            $.ajax({
+                type: "GET",
+                url: baseUrl + "api/DependencyAPI/",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    $.each(response, function (index) {
+                        $("#dependency_id").append(new Option(response[index].dependency_name, response[index].dependency_id));
+                    });
+                }
+            });
         });
     </script>
 }

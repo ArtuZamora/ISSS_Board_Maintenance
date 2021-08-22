@@ -22,13 +22,14 @@ namespace ISSS_Board_Maintenance.Models
     
         public string ms_id { get; set; }
         public string type { get; set; }
-        public string dependency { get; set; }
+        public int dependency_id { get; set; }
         public string building { get; set; }
         public string level { get; set; }
         public string location { get; set; }
         public string nomenclature { get; set; }
         public int month_scheduled { get; set; }
     
+        public virtual dependency dependency { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<maintenance_rutine> maintenance_rutine { get; set; }
     }

@@ -12,30 +12,22 @@ namespace ISSS_Board_Maintenance.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class employee_user
+    public partial class dependency
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public employee_user()
+        public dependency()
         {
-            this.maintenance_rutine = new HashSet<maintenance_rutine>();
+            this.employee_user = new HashSet<employee_user>();
+            this.maintenance_schedule = new HashSet<maintenance_schedule>();
         }
     
-        public int employee_id { get; set; }
-        public string username { get; set; }
-        public string name { get; set; }
-        public string password { get; set; }
-        public string last_name { get; set; }
-        public string signature { get; set; }
-        public string role { get; set; }
         public int dependency_id { get; set; }
-        public Nullable<bool> verification { get; set; }
+        public string dependency1 { get; set; }
+        public string dependency_prefix { get; set; }
     
-        public virtual dependency dependency { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<maintenance_rutine> maintenance_rutine { get; set; }
-        public string GetFullName()
-        {
-            return this.name + " " + this.last_name;
-        }
+        public virtual ICollection<employee_user> employee_user { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<maintenance_schedule> maintenance_schedule { get; set; }
     }
 }

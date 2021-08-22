@@ -9,6 +9,8 @@ namespace ISSS_Board_Maintenance.Models
     {
         public string employee_user_full_name { get; set; }
         public bool hasFiles { get; set; }
+        public string description { get; set; }
+        public string location { get; set; }
         public maintenance_rutineCE()
         {
 
@@ -18,8 +20,6 @@ namespace ISSS_Board_Maintenance.Models
             mr_id = baseRutine.mr_id;
             ms_id = baseRutine.ms_id;
             date = baseRutine.date;
-            description = baseRutine.description;
-            location = baseRutine.location;
             slots_quantity = baseRutine.slots_quantity;
             slots_available = baseRutine.slots_available;
             transf_capacity = baseRutine.transf_capacity;

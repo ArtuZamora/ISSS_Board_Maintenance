@@ -26,7 +26,15 @@ namespace ISSS_Board_Maintenance.Controllers
                 {
                     using (var db = new BM_010_ISSSEntities())
                     {
-                        return View(db.employee_user.Where(u => u.role.Trim() != "admin").ToList());
+                        List<employee_user> users = db.employee_user.Where(u => u.role.Trim() != "admin").ToList();
+                        List<employee_userCE> usersCE = new List<employee_userCE>();
+                        foreach (employee_user user in users)
+                        {
+                            employee_userCE userCE = new employee_userCE(user);
+                            userCE.dependecy_name = user.dependency.dependency1;
+                            usersCE.Add(userCE);
+                        }
+                        return View(usersCE);
                     }
                 }
                 catch (Exception)
@@ -65,6 +73,8 @@ namespace ISSS_Board_Maintenance.Controllers
                             Session["role"] = userF.role;
                             Session["fullname"] = userF.GetFullName();
                             Session["signature"] = userF.signature;
+                            Session["dependency_id"] = userF.dependency_id;
+                            Session["dependency_name"] = userF.dependency.dependency1;
                             return verifySession();
                         }
                         else
@@ -132,6 +142,47 @@ namespace ISSS_Board_Maintenance.Controllers
             }
             return RedirectToAction("Index", "User");
         }
+        public ActionResult Edit()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Edit(employee_userCE user)
+        {
+            HttpPostedFileBase file = Request.Files["signatureData"];
+            if (string.IsNullOrWhiteSpace(user.name) || string.IsNullOrWhiteSpace(user.last_name)
+                            || string.IsNullOrWhiteSpace(user.username))
+                TempData["noFullDataEdit"] = "Faltan datos";
+            else
+            {
+                if (ConvertToBytes(file).Length > 2097152)
+                    TempData["maxSizeReachedEdit"] = "Tamaño máximo";
+                else
+                {
+                    if(file.ContentLength != 0)
+                    {
+                        string path = Server.MapPath("~/Signatures/");
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+                        file.SaveAs(path + Path.GetFileName(file.FileName));
+                        user.signature = path + Path.GetFileName(file.FileName);
+                    }
+                    using (var db = new BM_010_ISSSEntities())
+                    {
+                        employee_user eUser = db.employee_user.Find(user.employee_id);
+                        eUser.name = user.name;
+                        eUser.last_name = user.last_name;
+                        eUser.password = string.IsNullOrWhiteSpace(user.password) ? eUser.password : user.password;
+                        eUser.dependency_id = user.dependency_id;
+                        eUser.signature = file.ContentLength == 0 ? eUser.signature : user.signature;
+                        db.SaveChanges();
+                    }
+                }
+            }
+            return RedirectToAction("Index", "User");
+        }
         public ActionResult HomeAdmin()
         {
             if (Session["role"] != null)
@@ -164,10 +215,7 @@ namespace ISSS_Board_Maintenance.Controllers
         }
         public ActionResult logOut()
         {
-            Session["id"] = null;
-            Session["role"] = null;
-            Session["fullname"] = null;
-            Session["signature"] = null;
+            Session.Clear();
             return RedirectToAction("Index", "User");
         }
         public ActionResult SuscribeUser(int id)

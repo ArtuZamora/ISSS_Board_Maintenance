@@ -1,4 +1,4 @@
-﻿@{ ViewBag.Title = "Tablero Administrador"; }
+﻿@{ ViewBag.Title = "Técnico"; }
 
 @section Styles{
     @Styles.Render("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900")
@@ -50,7 +50,7 @@
                         <a>Octubre</a>
                     </li>
                     <li id="year-11" class="months">
-                        <a>Nomviembre</a>
+                        <a>Noviembre</a>
                     </li>
                     <li id="year-12" class="months">
                         <a>Diciembre</a>
@@ -70,7 +70,10 @@
     <!-- Page Content  -->
 
     <div id="content" class="p-4 p-md-5 pt-5" style="margin-left:50px">
-        <h2 class="mb-4">Administración de rutinas de mantenimiento</h2>
+        <h2 class="mb-4">
+            Gestión de mantenimiento eléctrico<br />
+            @Session["dependency_name"].ToString()
+        </h2>
 
         <div class="modal fade" id="uploadFilesModal" role="dialog">
             <div class="modal-dialog" style="max-width:25% !important;">

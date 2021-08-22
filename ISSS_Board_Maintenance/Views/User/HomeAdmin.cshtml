@@ -42,7 +42,7 @@
 
     <!-- Page Content  -->
     <div id="content" class="p-4 p-md-5 pt-5" style="margin-left:50px">
-        <h2 class="mb-4">Administración de mantenimiento</h2>
+        <h2 class="mb-4">Mantenimiento Eléctrico</h2>
 
         <div class="modal fade" id="createScheduleModal" role="dialog">
             <div class="modal-dialog" style="max-width:25% !important;">
@@ -122,6 +122,21 @@
             </div>
         </div>
 
+        <div class="modal fade" id="editUserModal" role="dialog">
+            <div class="modal-dialog" style="max-width:25% !important;">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Editar Usuario</h4>
+                        <button type="button" class="close" data-dismiss="modal" style="margin-top:unset;">&times;</button>
+                    </div>
+                    <div class="modal-body" style="margin-left: 35px; margin-right: 35px;">
+                        @{ Html.RenderAction("Edit", "User"); }
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div id="scheduleDiv" style="display:block;">
             @{ Html.RenderAction("Index", "Schedule"); }
         </div>
@@ -169,6 +184,19 @@
                 $(".dltRutine").click(function () {
                     var id = $(this).attr("id");
                     window.location.href = '@Url.Action("Delete","Rutine")?id=' + id;
+                });
+                $.ajax({
+                    type: "GET",
+                    url: baseUrl + "api/DependencyAPI/",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        $.each(response, function (index) {
+                            $(".editUser#dependency_id").append(new Option(response[index].dependency_name, response[index].dependency_id));
+                            $(".editScheduleF#dependency_id").append(new Option(response[index].dependency_name, response[index].dependency_id));
+                            $(".createSchedule#dependency_id").append(new Option(response[index].dependency_name, response[index].dependency_id));
+                        });
+                    }
                 });
                 function resetActive(object, div) {
                     if (!($(object).hasClass("active"))) {
@@ -236,6 +264,24 @@
                 });
             $("#editScheduleModal").modal('show');
             $("#alertMessage7").show();
+        </script>
+    }
+    if (null != TempData["noFullDataEdit"])
+    {
+        <script>
+            alert("ERROR! No deben ir campos vacíos en la edición")
+        </script>
+    }
+    if (null != TempData["maxSizeReachedEdit"])
+    {
+        <script>
+            alert("ERROR! La firma no puede superar los 2MB")
+        </script>
+    }
+    if (null != TempData["noValidCode"])
+    {
+        <script>
+            alert("ERROR! Código de planificación existente")
         </script>
     }
 }

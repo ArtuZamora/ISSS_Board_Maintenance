@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\r2zam\OneDrive\Documentos\ISSS Project\new\ISSS_Board_Maintenance\ISSS_Board_Maintenance\Models\Model1.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\r2zam\OneDrive\Documentos\ISSS Project\ISSS_Board_Maintenance\ISSS_Board_Maintenance\Models\Model1.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

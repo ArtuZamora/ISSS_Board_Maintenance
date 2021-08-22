@@ -29,7 +29,7 @@ namespace ISSS_Board_Maintenance.Controllers
                         schedule schedule1 = new schedule();
                         schedule1.ms_id = schedule.ms_id;
                         schedule1.type = schedule.type;
-                        schedule1.dependency = schedule.dependency;
+                        schedule1.dependency_id = schedule.dependency.dependency_id;
                         schedule1.building = schedule.building;
                         schedule1.level = schedule.level;
                         schedule1.location = schedule.location;
@@ -86,7 +86,7 @@ namespace ISSS_Board_Maintenance.Controllers
     {
         public string ms_id { get; set; }
         public string type { get; set; }
-        public string dependency { get; set; }
+        public int dependency_id { get; set; }
         public string building { get; set; }
         public string level { get; set; }
         public string location { get; set; }

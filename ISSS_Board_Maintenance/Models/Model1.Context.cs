@@ -25,6 +25,7 @@ namespace ISSS_Board_Maintenance.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<dependency> dependencies { get; set; }
         public virtual DbSet<employee_user> employee_user { get; set; }
         public virtual DbSet<maintenance_rutine> maintenance_rutine { get; set; }
         public virtual DbSet<maintenance_schedule> maintenance_schedule { get; set; }

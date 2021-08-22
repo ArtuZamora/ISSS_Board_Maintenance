@@ -165,16 +165,22 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ChartController.cs" />
+    <Compile Include="Controllers\DependencyAPIController.cs" />
     <Compile Include="Controllers\RutineController.cs" />
     <Compile Include="Controllers\ScheduleAPIController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
+    <Compile Include="Controllers\UserAPIController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\dependency.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\employee_user.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\employee_userCE.cs" />
     <Compile Include="Models\maintenance_rutine.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -435,6 +441,7 @@
     <Content Include="Views\Chart\GetVoltage.cshtml" />
     <Content Include="Views\Chart\GetCurrent.cshtml" />
     <Content Include="Views\Rutine\UploadTermographyFiles.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

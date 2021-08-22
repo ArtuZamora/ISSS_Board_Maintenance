@@ -54,7 +54,10 @@ namespace ISSS_Board_Maintenance.Controllers
                 {
                     using (var db = new BM_010_ISSSEntities())
                     {
-                        var list = db.maintenance_schedule.ToList().Where(ms => ms.month_scheduled == id);
+                        var list = db.maintenance_schedule
+                            .ToList()
+                            .Where(ms => ms.month_scheduled == id 
+                            && ms.dependency_id == Convert.ToInt32(Session["dependency_id"]));
                         List<maintenance_scheduleCE> collection = new List<maintenance_scheduleCE>();
                         foreach (var item in list)
                         {
@@ -93,17 +96,21 @@ namespace ISSS_Board_Maintenance.Controllers
         [HttpPost]
         public ActionResult Create(maintenance_schedule schedule)
         {
-            if (string.IsNullOrWhiteSpace(schedule.building) || string.IsNullOrWhiteSpace(schedule.dependency) ||
-                string.IsNullOrWhiteSpace(schedule.level) || string.IsNullOrWhiteSpace(schedule.location) ||
-                string.IsNullOrWhiteSpace(schedule.nomenclature) || string.IsNullOrWhiteSpace(schedule.type))
+            if (string.IsNullOrWhiteSpace(schedule.building) || string.IsNullOrWhiteSpace(schedule.level)
+                || string.IsNullOrWhiteSpace(schedule.location) || string.IsNullOrWhiteSpace(schedule.nomenclature)
+                || string.IsNullOrWhiteSpace(schedule.type) || string.IsNullOrWhiteSpace(schedule.ms_id))
                 TempData["noFullDataSchedule"] = "noFullDataSchedule";
             else
             {
-                schedule.ms_id = "HG-000";
                 using (var db = new BM_010_ISSSEntities())
                 {
-                    db.maintenance_schedule.Add(schedule);
-                    db.SaveChanges();
+                    if (db.maintenance_schedule.Find(schedule.ms_id) == null)
+                    {
+                        db.maintenance_schedule.Add(schedule);
+                        db.SaveChanges();
+                    }
+                    else
+                        TempData["noValidCode"] = "Codigo existente";
                 }
             }
             return RedirectToAction("Index", "User");
@@ -119,9 +126,9 @@ namespace ISSS_Board_Maintenance.Controllers
         [HttpPost]
         public ActionResult Edit(maintenance_schedule schedule)
         {
-            if (string.IsNullOrWhiteSpace(schedule.building) || string.IsNullOrWhiteSpace(schedule.dependency) ||
-                string.IsNullOrWhiteSpace(schedule.level) || string.IsNullOrWhiteSpace(schedule.location) ||
-                string.IsNullOrWhiteSpace(schedule.nomenclature) || string.IsNullOrWhiteSpace(schedule.type))
+            if (string.IsNullOrWhiteSpace(schedule.building) || string.IsNullOrWhiteSpace(schedule.level)
+                || string.IsNullOrWhiteSpace(schedule.location) || string.IsNullOrWhiteSpace(schedule.nomenclature)
+                || string.IsNullOrWhiteSpace(schedule.type))
                 TempData["noFullDataScheduleEdit"] = schedule.ms_id;
             else
             {
@@ -129,7 +136,7 @@ namespace ISSS_Board_Maintenance.Controllers
                 {
                     maintenance_schedule sc = db.maintenance_schedule.Find(schedule.ms_id);
                     sc.type = schedule.type;
-                    sc.dependency = schedule.dependency;
+                    sc.dependency_id = schedule.dependency_id;
                     sc.building = schedule.building;
                     sc.level = schedule.level;
                     sc.location = schedule.location;

@@ -4,8 +4,36 @@
 
 <a id="createSchedule" style="cursor:pointer; color:darkblue;">
     Crear Nuevo
-</a>
-<table class="table">
+</a><br /><br />
+<div>
+    <table>
+        <tr>
+            <td>
+                Mes de planificación
+                <select class="form-control" id="months" name="months" style="width:auto; margin-right:30px;">
+                    <option value="1">Enero</option>
+                    <option value="2">Febrero</option>
+                    <option value="3">Marzo</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Mayo</option>
+                    <option value="6">Junio</option>
+                    <option value="7">Julio</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                </select>
+            </td>
+            <td>
+                Dependencia
+                <select class="form-control" id="dependency" name="dependency">
+                </select>
+            </td>
+        </tr>
+    </table>
+</div>
+<table class="table" id="scheduleTable">
     <tr>
         <th>
             Código
@@ -43,8 +71,8 @@
             <td>
                 @Html.DisplayFor(modelItem => item.type)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.dependency)
+            <td class="dependency_T">
+                @Html.DisplayFor(modelItem => item.dependency.dependency1)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.building)
@@ -58,7 +86,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.nomenclature)
             </td>
-            <td>
+            <td class="month_scheduled_T">
                 @Html.DisplayFor(modelItem => item.month_scheduled_name)
             </td>
             <td>
@@ -99,9 +127,9 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {
-                        $(".editScheduleF#ms_id").val(response.ms_id);
+                        $(".editScheduleF#ms_id").val(response.ms_id.trim());
                         $(".editScheduleF#type").val(response.type);
-                        $(".editScheduleF#dependency").val(response.dependency);
+                        $(".editScheduleF#dependency_id").val(response.dependency_id);
                         $(".editScheduleF#building").val(response.building);
                         $(".editScheduleF#level").val(response.level);
                         $(".editScheduleF#location").val(response.location);
@@ -111,6 +139,32 @@
                 });
                 $("#editScheduleModal").modal('show');
             });
+            $.ajax({
+                type: "GET",
+                url: baseUrl + "api/DependencyAPI/",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    $.each(response, function (index) {
+                        $("#dependency").append(new Option(response[index].dependency_name, response[index].dependency_id));
+                    });
+                    filterTable();
+                }
+            });
+            $("#months").on('change', function () {
+                filterTable();
+            });
+            $("#dependency").on('change', function () {
+                filterTable();
+            });
+            function filterTable() {
+                var dependency = $("#dependency option:selected").text().trim();
+                $("#scheduleTable td.dependency_T:contains('" + dependency + "')").parent().show();
+                $("#scheduleTable td.dependency_T:not(:contains('" + dependency + "'))").parent().hide();
+                var month = $("#months option:selected").text().trim().toLowerCase();
+                $("#scheduleTable td.month_scheduled_T:visible:contains('" + month + "')").parent().show();
+                $("#scheduleTable td.month_scheduled_T:visible:not(:contains('" + month + "'))").parent().hide();
+            }
         });
     </script>
 }

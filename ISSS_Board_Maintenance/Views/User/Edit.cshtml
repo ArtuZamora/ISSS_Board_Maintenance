@@ -1,0 +1,82 @@
+﻿@model ISSS_Board_Maintenance.Models.employee_userCE
+
+@using (Html.BeginForm("Edit", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" style="margin-right:-50px">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                <input class="editUser" id="employee_id" name="employee_id" style="display:none;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            Nombre de usuario
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "form-control editUser" } })
+                @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Nombres<br />
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control editUser" } })
+                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Apellidos<br />
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.last_name, new { htmlAttributes = new { @class = "form-control editUser" } })
+                @Html.ValidationMessageFor(model => model.last_name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Contraseña
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control editUser", @type = "password" } })
+                @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Firma<br />
+            <div class="col-md-10">
+                @Html.Editor("signatureData", new
+                     {
+                         htmlAttributes = new
+                         {
+                            @id = "signatureData",
+                            @name = "signatureData",
+                            @class = "form-control",
+                            @type = "file",
+                            @style = "height: 40px",
+                            @onchange = "fileCheck(this);",
+                            @accept = "image/*"
+                         }
+                     })
+                @Html.ValidationMessageFor(model => model.signature, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            Dependencia
+            <div class="col-md-10">
+                <select id="dependency_id" name="dependency_id" class="form-control editUser" style="height:40px;">
+                </select>
+                @Html.ValidationMessageFor(model => model.dependency_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-10">
+                <input type="submit" value="Editar" class="btn btn-info btn-lg" />
+            </div>
+        </div>
+    </div>
+}
